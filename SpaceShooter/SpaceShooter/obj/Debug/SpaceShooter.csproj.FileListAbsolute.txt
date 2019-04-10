@@ -8,4 +8,3 @@ C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Deb
 C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
 C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
 C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
-C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form2.resources

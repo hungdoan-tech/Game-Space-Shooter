@@ -39,7 +39,7 @@
             // StarTimer
             // 
             this.StarTimer.Enabled = true;
-            this.StarTimer.Interval = 10;
+            this.StarTimer.Interval = 1;
             this.StarTimer.Tick += new System.EventHandler(this.StarTimer_Tick);
             // 
             // Start_Button
@@ -72,12 +72,13 @@
             // 
             this.Main_PictureBox.BackColor = System.Drawing.Color.White;
             this.Main_PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Main_PictureBox.Location = new System.Drawing.Point(1, 1);
+            this.Main_PictureBox.Location = new System.Drawing.Point(0, 0);
             this.Main_PictureBox.MaximumSize = new System.Drawing.Size(500, 600);
             this.Main_PictureBox.Name = "Main_PictureBox";
             this.Main_PictureBox.Size = new System.Drawing.Size(500, 600);
             this.Main_PictureBox.TabIndex = 3;
             this.Main_PictureBox.TabStop = false;
+            this.Main_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_PictureBox_MouseMove);
             // 
             // Form1
             // 
@@ -89,10 +90,13 @@
             this.Controls.Add(this.Start_Button);
             this.Controls.Add(this.Main_PictureBox);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(519, 638);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).EndInit();
             this.ResumeLayout(false);
 

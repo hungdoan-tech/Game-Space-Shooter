@@ -1,0 +1,11 @@
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe.config
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.pdb
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csprojAssemblyReference.cache
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form1.resources
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Properties.Resources.resources
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.GenerateResource.cache
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
+C:\Users\HUNG PC\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form2.resources

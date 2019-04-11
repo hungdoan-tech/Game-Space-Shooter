@@ -16,8 +16,10 @@ namespace SpaceShooter
         Bitmap bitmap;
         Random rd;
         Star[] ListStar = new Star[13];
-        Emeny[] ListEmeny = new Emeny[10];
+        Enemy[] ListEnemy = new Enemy[6];
         Player MyPlayer;
+        Rock MyRock = new Rock();
+        bool IsStart = false;
         public Form1()
         {
             InitializeComponent();
@@ -34,13 +36,21 @@ namespace SpaceShooter
                 ListStar[i].StarType = rd.Next(0, 2);
             }
 
-            for (int i = 0; i < ListEmeny.Length; i++)
+            for (int i = 0; i < ListEnemy.Length; i++)
             {
-                ListEmeny[i] = new Emeny();
-                ListEmeny[i].Location.X = rd.Next(0, 500);
-                ListEmeny[i].Location.Y = rd.Next(-200, -100);
-                ListEmeny[i].EmenyType = rd.Next(1, 3);
+                ListEnemy[i] = new Enemy();
+                ListEnemy[i].Location.X = rd.Next(0, 500);
+                ListEnemy[i].Location.Y = rd.Next(-200, -100);
+                ListEnemy[i].EnemyType = rd.Next(1, 3);
             }
+            MyRock.Location.X = rd.Next(0, 500);
+            MyRock.Location.Y = rd.Next(-200, -100);
+
+            MyPlayer = new Player();
+            MyPlayer.Location.X = 230;
+            MyPlayer.Location.Y = 530;
+            MyPlayer.MyBullet = new Bullet();
+            MyPlayer.MyBullet.Location = MyPlayer.Location;
         }
 
         private void StarTimer_Tick(object sender, EventArgs e)
@@ -68,27 +78,37 @@ namespace SpaceShooter
             }
             Draw();
         }
-        private void Emeny_Timer_Tick(object sender, EventArgs e)
+        private void Rock_Timer_Tick(object sender, EventArgs e)
         {
             rd = new Random();
-            for (int i = 0; i < ListEmeny.Length; i++)
+            MyRock.Location.Y += 7;
+            if (MyRock.Location.Y > Main_PictureBox.Height)
             {
-                if (ListEmeny[i].EmenyType == 1 || ListEmeny[i].EmenyType == 2)
+                MyRock.Location.X = rd.Next(20, 440);
+                MyRock.Location.Y = -500;
+            }
+        }
+        private void Enemy_Timer_Tick(object sender, EventArgs e)
+        {
+            rd = new Random();
+            for (int i = 0; i < ListEnemy.Length; i++)
+            {
+                if (ListEnemy[i].EnemyType == 1 || ListEnemy[i].EnemyType == 2)
                 {
-                    ListEmeny[i].Location.Y += 3;
+                    ListEnemy[i].Location.Y += 3;
                 }
                 else
                 {
-                    ListEmeny[i].Location.Y += 5;
+                    ListEnemy[i].Location.Y += 5;
                 }
             }
-            for (int i = 0; i < ListEmeny.Length; i++)
+            for (int i = 0; i < ListEnemy.Length; i++)
             {
-                if (ListEmeny[i].Location.Y >= Main_PictureBox.Height)
+                if (ListEnemy[i].Location.Y >= Main_PictureBox.Height)
                 {
-                    ListEmeny[i].Location.X = rd.Next(0, 500);
-                    ListEmeny[i].Location.Y = -100;
-                    ListEmeny[i].EmenyType = rd.Next(0, 2);
+                    ListEnemy[i].Location.X = rd.Next(0, 500);
+                    ListEnemy[i].Location.Y = -100;
+                    ListEnemy[i].EnemyType = rd.Next(0, 2);
                 }
             }
         }
@@ -97,41 +117,76 @@ namespace SpaceShooter
             gp.Clear(Color.White);
 
             gp.FillRectangle(new SolidBrush(Color.FromArgb(255, (byte)0, (byte)0, (byte)56)), 0, 0, Main_PictureBox.Width, Main_PictureBox.Height);
+
             for (int i = 0; i < ListStar.Length; i++)
             {
                 if (ListStar[i].StarType == 1)
                 {
-                    gp.DrawImage(Properties.Resources.Star1, ListStar[i].Location.X, ListStar[i].Location.Y);
+                    gp.DrawImage(Properties.Resources.Star2, ListStar[i].Location.X, ListStar[i].Location.Y);
                 }
                 else
                 {
                     if (ListStar[i].StarType == 0 || ListStar[i].StarType == 2)
-                        gp.DrawImage(Properties.Resources.Star2, ListStar[i].Location.X, ListStar[i].Location.Y);
+                        gp.DrawImage(Properties.Resources.Star1, ListStar[i].Location.X, ListStar[i].Location.Y);
                 }
             }
-            for (int i = 0; i < ListEmeny.Length; i++)
+            //if (IsStart == false)
+            //{
+            //    gp.DrawImage(Properties.Resources.Brand1, new PointF(150, 90));
+            //}
+            for (int i = 0; i < ListEnemy.Length; i++)
             {
-                if (ListEmeny[i].EmenyType == 1)
+                if (ListEnemy[i].EnemyType == 1)
                 {
-                    gp.DrawImage(Properties.Resources.enemyBlack, ListEmeny[i].Location.X, ListEmeny[i].Location.Y);
+                    gp.DrawImage(Properties.Resources.EnemyBlack, ListEnemy[i].Location.X, ListEnemy[i].Location.Y);
                 }
                 else
                 {
-                    if (ListEmeny[i].EmenyType == 2)
+                    if (ListEnemy[i].EnemyType == 2)
                     {
-                        gp.DrawImage(Properties.Resources.enemyGreen, ListEmeny[i].Location.X, ListEmeny[i].Location.Y);
+                        gp.DrawImage(Properties.Resources.EnemyGreen, ListEnemy[i].Location.X, ListEnemy[i].Location.Y);
                     }
                     else
                     {
-                        gp.DrawImage(Properties.Resources.enemyRed, ListEmeny[i].Location.X, ListEmeny[i].Location.Y);
+                        gp.DrawImage(Properties.Resources.EnemyRed, ListEnemy[i].Location.X, ListEnemy[i].Location.Y);
                     }
                 }
             }
-            if (MyPlayer != null)
+            gp.DrawImage(Properties.Resources.Rock, MyRock.Location);
+            if (IsStart==true)
             {
                 gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
+                gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet.Location);
             }
+
+           
             Main_PictureBox.Image = bitmap;
+            
+            //this.Invalidate();
+            //Application.DoEvents();
+            //System.Threading.Thread.Sleep(1);
+        }
+        public void KiemTra()
+        {
+            for (int i = 0; i < ListEnemy.Length; i++)
+            {
+                if (KiemTraBanTrung(MyPlayer.MyBullet.Location,ListEnemy[i].Location)==true)
+                {
+                    ListEnemy[i].Location.X = rd.Next(0, 500);
+                    ListEnemy[i].Location.Y = -100;
+                    ListEnemy[i].EnemyType = rd.Next(0, 2);
+                    MyPlayer.MyBullet.Location = MyPlayer.Location;
+                    return;
+                }s
+            }
+        }
+        public bool KiemTraBanTrung(PointF a,PointF b)
+        {
+            if (a.X <= b.X + 30 && a.X+7 >= b.X)
+            {
+                return true;
+            }
+            return false;
         }
         private void Main_PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -144,12 +199,13 @@ namespace SpaceShooter
         {
             Start_Button.Hide();
             Exit_Button.Hide();
-            StarTimer.Start();
+            Star_Timer.Start();
+            IsStart = true;
             Cursor.Hide();
-            Emeny_Timer.Start();
-            MyPlayer = new Player();
-            MyPlayer.Location.X = 230;
-            MyPlayer.Location.Y = 530;
+            Enemy_Timer.Start();
+            Rock_Timer.Start();
+            Bullet_Timer.Start();
+
         }
         private void Exit_Button_Click(object sender, EventArgs e)
         {
@@ -160,21 +216,27 @@ namespace SpaceShooter
             public PointF Location;
             public int StarType;
         }
-        public class Emeny
+        public class Enemy
         {
             public PointF Location;
-            public int EmenyType;
-            public Bullet EmenyBullet;
+            public int EnemyType;
+            public Bullet EnemyBullet;
         }
         public class Player
         {
             public PointF Location;
             public Bullet MyBullet;
+            public int Mark;
+            public int Level;
         }
         public class Bullet
         {
             public PointF Location;
             
+        }
+        public class Rock
+        {
+            public PointF Location;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -185,8 +247,18 @@ namespace SpaceShooter
         {
             if (e.KeyCode == Keys.Escape)
             {
-                StarTimer.Stop();
+                Star_Timer.Stop();
             }
-        }  
+        }
+
+        private void Bullet_Timer_Tick(object sender, EventArgs e)
+        {
+            MyPlayer.MyBullet.Location.Y -= 15;
+            if (MyPlayer.MyBullet.Location.Y < 0)
+            {
+                MyPlayer.MyBullet.Location = MyPlayer.Location;
+            }
+            KiemTra();
+        }
     }
 }

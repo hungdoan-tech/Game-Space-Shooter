@@ -71,6 +71,36 @@ namespace SpaceShooter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap enemyBlack {
+            get {
+                object obj = ResourceManager.GetObject("enemyBlack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap enemyGreen {
+            get {
+                object obj = ResourceManager.GetObject("enemyGreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap enemyRed {
+            get {
+                object obj = ResourceManager.GetObject("enemyRed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] GameSong {
@@ -103,9 +133,9 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap star1 {
+        public static System.Drawing.Bitmap Star1 {
             get {
-                object obj = ResourceManager.GetObject("star1", resourceCulture);
+                object obj = ResourceManager.GetObject("Star1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +143,9 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap star2 {
+        public static System.Drawing.Bitmap Star2 {
             get {
-                object obj = ResourceManager.GetObject("star2", resourceCulture);
+                object obj = ResourceManager.GetObject("Star2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

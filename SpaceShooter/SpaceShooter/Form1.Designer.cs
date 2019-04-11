@@ -33,6 +33,7 @@
             this.Start_Button = new System.Windows.Forms.Button();
             this.Exit_Button = new System.Windows.Forms.Button();
             this.Main_PictureBox = new System.Windows.Forms.PictureBox();
+            this.Emeny_Timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,6 +81,11 @@
             this.Main_PictureBox.TabStop = false;
             this.Main_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_PictureBox_MouseMove);
             // 
+            // Emeny_Timer
+            // 
+            this.Emeny_Timer.Interval = 20;
+            this.Emeny_Timer.Tick += new System.EventHandler(this.Emeny_Timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -108,6 +114,7 @@
         private System.Windows.Forms.Button Start_Button;
         private System.Windows.Forms.Button Exit_Button;
         private System.Windows.Forms.PictureBox Main_PictureBox;
+        private System.Windows.Forms.Timer Emeny_Timer;
     }
 }
 

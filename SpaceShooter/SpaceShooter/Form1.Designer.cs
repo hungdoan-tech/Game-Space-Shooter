@@ -33,9 +33,13 @@
             this.Start_Button = new System.Windows.Forms.Button();
             this.Exit_Button = new System.Windows.Forms.Button();
             this.Enemy_Timer = new System.Windows.Forms.Timer(this.components);
-            this.Rock_Timer = new System.Windows.Forms.Timer(this.components);
             this.Main_PictureBox = new System.Windows.Forms.PictureBox();
             this.Bullet_Timer = new System.Windows.Forms.Timer(this.components);
+            this.Rock_Timer = new System.Windows.Forms.Timer(this.components);
+            this.Mark_Label = new System.Windows.Forms.Label();
+            this.MarkLogo_Label = new System.Windows.Forms.Label();
+            this.Level_Label = new System.Windows.Forms.Label();
+            this.LevelLogo_Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,16 +80,11 @@
             this.Enemy_Timer.Interval = 20;
             this.Enemy_Timer.Tick += new System.EventHandler(this.Enemy_Timer_Tick);
             // 
-            // Rock_Timer
-            // 
-            this.Rock_Timer.Interval = 20;
-            this.Rock_Timer.Tick += new System.EventHandler(this.Rock_Timer_Tick);
-            // 
             // Main_PictureBox
             // 
             this.Main_PictureBox.BackColor = System.Drawing.Color.White;
             this.Main_PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Main_PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.Main_PictureBox.Location = new System.Drawing.Point(2, 1);
             this.Main_PictureBox.MaximumSize = new System.Drawing.Size(500, 600);
             this.Main_PictureBox.Name = "Main_PictureBox";
             this.Main_PictureBox.Size = new System.Drawing.Size(500, 600);
@@ -98,12 +97,69 @@
             this.Bullet_Timer.Interval = 2;
             this.Bullet_Timer.Tick += new System.EventHandler(this.Bullet_Timer_Tick);
             // 
+            // Rock_Timer
+            // 
+            this.Rock_Timer.Interval = 30;
+            this.Rock_Timer.Tick += new System.EventHandler(this.Rock_Timer_Tick);
+            // 
+            // Mark_Label
+            // 
+            this.Mark_Label.AutoSize = true;
+            this.Mark_Label.BackColor = System.Drawing.Color.Transparent;
+            this.Mark_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.Mark_Label.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.Mark_Label.Location = new System.Drawing.Point(69, 9);
+            this.Mark_Label.Name = "Mark_Label";
+            this.Mark_Label.Size = new System.Drawing.Size(21, 24);
+            this.Mark_Label.TabIndex = 29;
+            this.Mark_Label.Text = "0";
+            // 
+            // MarkLogo_Label
+            // 
+            this.MarkLogo_Label.AutoSize = true;
+            this.MarkLogo_Label.BackColor = System.Drawing.Color.Transparent;
+            this.MarkLogo_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MarkLogo_Label.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.MarkLogo_Label.Location = new System.Drawing.Point(12, 9);
+            this.MarkLogo_Label.Name = "MarkLogo_Label";
+            this.MarkLogo_Label.Size = new System.Drawing.Size(61, 24);
+            this.MarkLogo_Label.TabIndex = 28;
+            this.MarkLogo_Label.Text = "Mark:";
+            // 
+            // Level_Label
+            // 
+            this.Level_Label.AutoSize = true;
+            this.Level_Label.BackColor = System.Drawing.Color.Transparent;
+            this.Level_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.Level_Label.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.Level_Label.Location = new System.Drawing.Point(464, 9);
+            this.Level_Label.Name = "Level_Label";
+            this.Level_Label.Size = new System.Drawing.Size(32, 24);
+            this.Level_Label.TabIndex = 31;
+            this.Level_Label.Text = "01";
+            // 
+            // LevelLogo_Label
+            // 
+            this.LevelLogo_Label.AutoSize = true;
+            this.LevelLogo_Label.BackColor = System.Drawing.Color.Transparent;
+            this.LevelLogo_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LevelLogo_Label.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.LevelLogo_Label.Location = new System.Drawing.Point(386, 9);
+            this.LevelLogo_Label.Name = "LevelLogo_Label";
+            this.LevelLogo_Label.Size = new System.Drawing.Size(80, 24);
+            this.LevelLogo_Label.TabIndex = 30;
+            this.LevelLogo_Label.Text = "LEVEL:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(503, 599);
+            this.Controls.Add(this.Level_Label);
+            this.Controls.Add(this.LevelLogo_Label);
+            this.Controls.Add(this.Mark_Label);
+            this.Controls.Add(this.MarkLogo_Label);
             this.Controls.Add(this.Exit_Button);
             this.Controls.Add(this.Start_Button);
             this.Controls.Add(this.Main_PictureBox);
@@ -117,6 +173,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -127,8 +184,12 @@
         private System.Windows.Forms.Button Exit_Button;
         private System.Windows.Forms.PictureBox Main_PictureBox;
         private System.Windows.Forms.Timer Enemy_Timer;
-        private System.Windows.Forms.Timer Rock_Timer;
         private System.Windows.Forms.Timer Bullet_Timer;
+        private System.Windows.Forms.Timer Rock_Timer;
+        private System.Windows.Forms.Label Mark_Label;
+        private System.Windows.Forms.Label MarkLogo_Label;
+        private System.Windows.Forms.Label Level_Label;
+        private System.Windows.Forms.Label LevelLogo_Label;
     }
 }
 

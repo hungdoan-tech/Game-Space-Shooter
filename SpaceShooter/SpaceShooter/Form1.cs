@@ -27,6 +27,15 @@ namespace SpaceShooter
             gp = Graphics.FromImage(bitmap);
             gp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
+            Mark_Label.Hide();
+            MarkLogo_Label.Hide();
+            Mark_Label.Parent = Main_PictureBox;
+            MarkLogo_Label.Parent = Main_PictureBox;
+            LevelLogo_Label.Parent = Main_PictureBox;
+            Level_Label.Parent = Main_PictureBox;
+            LevelLogo_Label.Hide();
+            Level_Label.Hide();
+
             rd = new Random();
             for (int i = 0; i < ListStar.Length; i++)
             {
@@ -51,6 +60,9 @@ namespace SpaceShooter
             MyPlayer = new Player();
             MyPlayer.Location.X = 230;
             MyPlayer.Location.Y = 530;
+            MyPlayer.Mark = 0;
+            MyPlayer.Level = 1;
+
             MyPlayer.MyBullet = new List<Bullet>();
             Bullet TempBullet = new Bullet();
             TempBullet.Location = MyPlayer.Location;
@@ -150,7 +162,7 @@ namespace SpaceShooter
         {
             for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
             {
-                MyPlayer.MyBullet[i].Location.Y -= 20;
+                MyPlayer.MyBullet[i].Location.Y -= 15;
                 if (MyPlayer.MyBullet[i].Location.Y < 0)
                 {
                     MyPlayer.MyBullet[i].Location = MyPlayer.Location;
@@ -161,7 +173,6 @@ namespace SpaceShooter
         public void Draw()
         {
             gp.Clear(Color.White);
-
             gp.FillRectangle(new SolidBrush(Color.FromArgb(255, (byte)0, (byte)0, (byte)56)), 0, 0, Main_PictureBox.Width, Main_PictureBox.Height);
 
             for (int i = 0; i < ListStar.Length; i++)
@@ -224,6 +235,16 @@ namespace SpaceShooter
                         ListEnemy[i].Location.Y = -100;
                         ListEnemy[i].EnemyType = rd.Next(0, 2);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                        MyPlayer.Mark++;
+
+                        if (MyPlayer.Mark == 50)
+                        {
+                            MyPlayer.Mark = 0;
+                            MyPlayer.Level++;
+                        }
+                        Mark_Label.Text = MyPlayer.Mark.ToString();
+                        Level_Label.Text = MyPlayer.Level.ToString();
+
                         return;
                     }
                 }
@@ -255,13 +276,16 @@ namespace SpaceShooter
         {
             Start_Button.Hide();
             Exit_Button.Hide();
+            MarkLogo_Label.Show();
+            Mark_Label.Show();
+            Level_Label.Show();
+            LevelLogo_Label.Show();
             Star_Timer.Start();
             IsStart = true;
             Cursor.Hide();
             Enemy_Timer.Start();
             Rock_Timer.Start();
             Bullet_Timer.Start();
-
         }
         private void Exit_Button_Click(object sender, EventArgs e)
         {

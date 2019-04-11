@@ -78,7 +78,7 @@
             // 
             // Rock_Timer
             // 
-            this.Rock_Timer.Interval = 30;
+            this.Rock_Timer.Interval = 20;
             this.Rock_Timer.Tick += new System.EventHandler(this.Rock_Timer_Tick);
             // 
             // Main_PictureBox

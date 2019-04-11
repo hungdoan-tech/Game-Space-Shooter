@@ -49,8 +49,10 @@ namespace SpaceShooter
             MyPlayer = new Player();
             MyPlayer.Location.X = 230;
             MyPlayer.Location.Y = 530;
-            MyPlayer.MyBullet = new Bullet();
-            MyPlayer.MyBullet.Location = MyPlayer.Location;
+            MyPlayer.MyBullet = new List<Bullet>();
+            Bullet Temp = new Bullet();
+            Temp.Location = MyPlayer.Location;
+            MyPlayer.MyBullet.Add(Temp);
         }
 
         private void StarTimer_Tick(object sender, EventArgs e)
@@ -130,10 +132,10 @@ namespace SpaceShooter
                         gp.DrawImage(Properties.Resources.Star1, ListStar[i].Location.X, ListStar[i].Location.Y);
                 }
             }
-            //if (IsStart == false)
-            //{
-            //    gp.DrawImage(Properties.Resources.Brand1, new PointF(150, 90));
-            //}
+            if (IsStart == false)
+            {
+                gp.DrawImage(Properties.Resources.Brand1, new PointF(80, 170));
+            }
             for (int i = 0; i < ListEnemy.Length; i++)
             {
                 if (ListEnemy[i].EnemyType == 1)
@@ -156,7 +158,10 @@ namespace SpaceShooter
             if (IsStart==true)
             {
                 gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
-                gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet.Location);
+                for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
+                {
+                    gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet[i].Location);
+                }
             }
 
            
@@ -170,14 +175,17 @@ namespace SpaceShooter
         {
             for (int i = 0; i < ListEnemy.Length; i++)
             {
-                if (KiemTraBanTrung(MyPlayer.MyBullet.Location,ListEnemy[i].Location)==true)
+                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
                 {
-                    ListEnemy[i].Location.X = rd.Next(0, 500);
-                    ListEnemy[i].Location.Y = -100;
-                    ListEnemy[i].EnemyType = rd.Next(0, 2);
-                    MyPlayer.MyBullet.Location = MyPlayer.Location;
-                    return;
-                }s
+                    if (KiemTraBanTrung(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
+                    {
+                        ListEnemy[i].Location.X = rd.Next(0, 500);
+                        ListEnemy[i].Location.Y = -100;
+                        ListEnemy[i].EnemyType = rd.Next(0, 2);
+                        MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                        return;
+                    }
+                }
             }
         }
         public bool KiemTraBanTrung(PointF a,PointF b)
@@ -225,7 +233,7 @@ namespace SpaceShooter
         public class Player
         {
             public PointF Location;
-            public Bullet MyBullet;
+            public List<Bullet> MyBullet;
             public int Mark;
             public int Level;
         }
@@ -247,18 +255,31 @@ namespace SpaceShooter
         {
             if (e.KeyCode == Keys.Escape)
             {
+                if (IsStart == true)
+                {
+                    Cursor.Show();
+                    Start_Button.Show();
+                    Exit_Button.Show();
+                }
+                Start_Button.Text = "Continue";
+                Enemy_Timer.Stop();
+                Bullet_Timer.Stop();      
+                Rock_Timer.Stop();
                 Star_Timer.Stop();
             }
         }
 
         private void Bullet_Timer_Tick(object sender, EventArgs e)
         {
-            MyPlayer.MyBullet.Location.Y -= 15;
-            if (MyPlayer.MyBullet.Location.Y < 0)
+            for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
             {
-                MyPlayer.MyBullet.Location = MyPlayer.Location;
+                MyPlayer.MyBullet[i].Location.Y -= 20;
+                if (MyPlayer.MyBullet[i].Location.Y < 0)
+                {
+                    MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                }
+                KiemTra();
             }
-            KiemTra();
         }
     }
 }

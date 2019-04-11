@@ -127,9 +127,6 @@
   <data name="shoot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shoot.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Brand1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\b2b480b659efa2aa61f01e60ed7535f7_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EnemyBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\enemyBlack5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,19 +139,28 @@
   <data name="laserBlue01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\laserBlue01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="laserGreen10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="laserGreen2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\laserGreen10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Player" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Player.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Rock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\357f06ecbaaa77d750259c459c0ed55f-round-rock-illustration.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Star1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\star2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Star2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\star1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Brand1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Brand1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Brand2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Brand2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Brand3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Brand3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

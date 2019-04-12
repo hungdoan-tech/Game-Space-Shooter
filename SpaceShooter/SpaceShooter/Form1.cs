@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace SpaceShooter
 {
     public partial class Form1 : Form
     {
+
         Graphics gp;
         Bitmap bitmap;
         Random rd;
@@ -26,7 +28,6 @@ namespace SpaceShooter
             bitmap = new Bitmap(Main_PictureBox.Width, Main_PictureBox.Height);
             gp = Graphics.FromImage(bitmap);
             gp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-
             Mark_Label.Hide();
             MarkLogo_Label.Hide();
             Mark_Label.Parent = Main_PictureBox;
@@ -35,24 +36,11 @@ namespace SpaceShooter
             Level_Label.Parent = Main_PictureBox;
             LevelLogo_Label.Hide();
             Level_Label.Hide();
+            Status_Label.Parent = Main_PictureBox;
+            Status_Label.Hide();
 
             rd = new Random();
-            for (int i = 0; i < ListStar.Length; i++)
-            {
-                ListStar[i] = new Star();
-                ListStar[i].Location.X = rd.Next(0, 500);
-                ListStar[i].Location.Y = rd.Next(100, 600);
-                ListStar[i].StarType = rd.Next(0, 2);
-            }
 
-            for (int i = 0; i < 5; i++)
-            {
-                Enemy TempEnemy = new Enemy();
-                TempEnemy.Location.X = rd.Next(0, 500);
-                TempEnemy.Location.Y = rd.Next(-200, -100);
-                TempEnemy.EnemyType = rd.Next(1, 3);
-                ListEnemy.Add(TempEnemy);
-            }
             MyRock.Location.X = rd.Next(0, 500);
             MyRock.Location.Y = rd.Next(-200, -100);
             MyRock.Type = 1;
@@ -66,7 +54,25 @@ namespace SpaceShooter
             MyPlayer.MyBullet = new List<Bullet>();
             Bullet TempBullet = new Bullet();
             TempBullet.Location = MyPlayer.Location;
+            TempBullet.Location.Y -= 80;
             MyPlayer.MyBullet.Add(TempBullet);
+
+            for (int i = 0; i < ListStar.Length; i++)
+            {
+                ListStar[i] = new Star();
+                ListStar[i].Location.X = rd.Next(0, 500);
+                ListStar[i].Location.Y = rd.Next(100, 600);
+                ListStar[i].StarType = rd.Next(0, 2);
+            }
+
+            for (int i = 0; i < 2+MyPlayer.Level; i++)
+            {
+                Enemy TempEnemy = new Enemy();
+                TempEnemy.Location.X = rd.Next(0, 450);
+                TempEnemy.Location.Y = rd.Next(-200, -100);
+                TempEnemy.EnemyType = rd.Next(1, 3);
+                ListEnemy.Add(TempEnemy);
+            } 
         }
 
         private void StarTimer_Tick(object sender, EventArgs e)
@@ -122,7 +128,7 @@ namespace SpaceShooter
                     }
                     else
                     {
-                        Temp.X = rd.Next(350,430);
+                        Temp.X = rd.Next(390,430);
                     }
                     if (MyRock.Location.X - Temp.X == 0)
                     {
@@ -141,11 +147,11 @@ namespace SpaceShooter
             {
                 if (ListEnemy[i].EnemyType == 1 || ListEnemy[i].EnemyType == 2)
                 {
-                    ListEnemy[i].Location.Y += 3;
+                    ListEnemy[i].Location.Y += MyPlayer.Level;
                 }
                 else
                 {
-                    ListEnemy[i].Location.Y += 5;
+                    ListEnemy[i].Location.Y += MyPlayer.Level+2;
                 }
             }
             for (int i = 0; i < ListEnemy.Count; i++)
@@ -189,7 +195,7 @@ namespace SpaceShooter
             }
             if (IsStart == false)
             {
-                gp.DrawImage(Properties.Resources.Brand1, new PointF(80, 170));
+                gp.DrawImage(Properties.Resources.Brand1, new PointF(80, 120));
             }
             for (int i = 0; i < ListEnemy.Count; i++)
             {
@@ -219,8 +225,8 @@ namespace SpaceShooter
                 }
             }
             Main_PictureBox.Image = bitmap;
-            //this.Invalidate();
-            //Application.DoEvents();
+            this.Invalidate();
+            Application.DoEvents();
             //System.Threading.Thread.Sleep(1);
         }
         public void KiemTra()
@@ -231,7 +237,7 @@ namespace SpaceShooter
                 {
                     if (KiemTraBanTrung(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
                     {
-                        ListEnemy[i].Location.X = rd.Next(0, 500);
+                        ListEnemy[i].Location.X = rd.Next(0, 450);
                         ListEnemy[i].Location.Y = -100;
                         ListEnemy[i].EnemyType = rd.Next(0, 2);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
@@ -241,6 +247,11 @@ namespace SpaceShooter
                         {
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
+                            Enemy TempEnemy = new Enemy();
+                            TempEnemy.Location.X = rd.Next(0, 450);
+                            TempEnemy.Location.Y = rd.Next(-200, -100);
+                            TempEnemy.EnemyType = rd.Next(1, 3);
+                            ListEnemy.Add(TempEnemy);
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
@@ -252,9 +263,12 @@ namespace SpaceShooter
         }
         public bool KiemTraBanTrung(PointF a,PointF b)
         {
-            if (a.X <= b.X + 30 && a.X+7 >= b.X)
+            if (a.Y >= 0)
             {
-                return true;
+                if (a.X <= b.X + 30 && a.X + 7 >= b.X && a.Y<=b.Y-2) 
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -319,6 +333,12 @@ namespace SpaceShooter
             public int StarType;
         }
         public class Enemy
+        {
+            public PointF Location;
+            public int EnemyType;
+            public Bullet EnemyBullet;
+        }
+        public class AttackEnemy
         {
             public PointF Location;
             public int EnemyType;

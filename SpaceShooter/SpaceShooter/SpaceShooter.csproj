@@ -81,43 +81,65 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\boom.mp3" />
+    <None Include="Resources\Boom.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GameSong.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shoot.mp3" />
+    <None Include="Resources\Shoot.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Player.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\star2.png" />
+    <None Include="Resources\Star2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\star1.png" />
+    <None Include="Resources\Star1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enemyBlack5.png" />
+    <None Include="Resources\EnemyBlack5.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enemyGreen1.png" />
+    <None Include="Resources\EnemyGreen1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enemyRed2.png" />
+    <None Include="Resources\EnemyRed2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\laserBlue01.png" />
+    <None Include="Resources\LaserBlue01.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\laserGreen10.png" />
+    <None Include="Resources\LaserGreen10.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Rock.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Brand1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\munition.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

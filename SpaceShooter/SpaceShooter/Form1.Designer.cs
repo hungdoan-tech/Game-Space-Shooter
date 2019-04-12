@@ -33,13 +33,14 @@
             this.Start_Button = new System.Windows.Forms.Button();
             this.Exit_Button = new System.Windows.Forms.Button();
             this.Enemy_Timer = new System.Windows.Forms.Timer(this.components);
-            this.Main_PictureBox = new System.Windows.Forms.PictureBox();
             this.Bullet_Timer = new System.Windows.Forms.Timer(this.components);
             this.Rock_Timer = new System.Windows.Forms.Timer(this.components);
             this.Mark_Label = new System.Windows.Forms.Label();
             this.MarkLogo_Label = new System.Windows.Forms.Label();
             this.Level_Label = new System.Windows.Forms.Label();
             this.LevelLogo_Label = new System.Windows.Forms.Label();
+            this.Status_Label = new System.Windows.Forms.Label();
+            this.Main_PictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +54,7 @@
             // 
             this.Start_Button.BackColor = System.Drawing.Color.RoyalBlue;
             this.Start_Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Start_Button.Location = new System.Drawing.Point(200, 310);
+            this.Start_Button.Location = new System.Drawing.Point(200, 260);
             this.Start_Button.Name = "Start_Button";
             this.Start_Button.Size = new System.Drawing.Size(93, 44);
             this.Start_Button.TabIndex = 1;
@@ -67,7 +68,7 @@
             this.Exit_Button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Exit_Button.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Exit_Button.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Exit_Button.Location = new System.Drawing.Point(200, 360);
+            this.Exit_Button.Location = new System.Drawing.Point(200, 310);
             this.Exit_Button.Name = "Exit_Button";
             this.Exit_Button.Size = new System.Drawing.Size(93, 40);
             this.Exit_Button.TabIndex = 2;
@@ -79,18 +80,6 @@
             // 
             this.Enemy_Timer.Interval = 20;
             this.Enemy_Timer.Tick += new System.EventHandler(this.Enemy_Timer_Tick);
-            // 
-            // Main_PictureBox
-            // 
-            this.Main_PictureBox.BackColor = System.Drawing.Color.White;
-            this.Main_PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Main_PictureBox.Location = new System.Drawing.Point(2, 1);
-            this.Main_PictureBox.MaximumSize = new System.Drawing.Size(500, 600);
-            this.Main_PictureBox.Name = "Main_PictureBox";
-            this.Main_PictureBox.Size = new System.Drawing.Size(500, 600);
-            this.Main_PictureBox.TabIndex = 3;
-            this.Main_PictureBox.TabStop = false;
-            this.Main_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_PictureBox_MouseMove);
             // 
             // Bullet_Timer
             // 
@@ -150,12 +139,38 @@
             this.LevelLogo_Label.TabIndex = 30;
             this.LevelLogo_Label.Text = "LEVEL:";
             // 
+            // Status_Label
+            // 
+            this.Status_Label.AutoSize = true;
+            this.Status_Label.BackColor = System.Drawing.Color.Transparent;
+            this.Status_Label.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Status_Label.ForeColor = System.Drawing.Color.Red;
+            this.Status_Label.Location = new System.Drawing.Point(131, 168);
+            this.Status_Label.Name = "Status_Label";
+            this.Status_Label.Size = new System.Drawing.Size(245, 55);
+            this.Status_Label.TabIndex = 36;
+            this.Status_Label.Text = "Game Over";
+            this.Status_Label.Visible = false;
+            // 
+            // Main_PictureBox
+            // 
+            this.Main_PictureBox.BackColor = System.Drawing.Color.White;
+            this.Main_PictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Main_PictureBox.Location = new System.Drawing.Point(2, 1);
+            this.Main_PictureBox.MaximumSize = new System.Drawing.Size(500, 600);
+            this.Main_PictureBox.Name = "Main_PictureBox";
+            this.Main_PictureBox.Size = new System.Drawing.Size(500, 600);
+            this.Main_PictureBox.TabIndex = 3;
+            this.Main_PictureBox.TabStop = false;
+            this.Main_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_PictureBox_MouseMove);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(503, 599);
+            this.Controls.Add(this.Status_Label);
             this.Controls.Add(this.Level_Label);
             this.Controls.Add(this.LevelLogo_Label);
             this.Controls.Add(this.Mark_Label);
@@ -190,6 +205,7 @@
         private System.Windows.Forms.Label MarkLogo_Label;
         private System.Windows.Forms.Label Level_Label;
         private System.Windows.Forms.Label LevelLogo_Label;
+        private System.Windows.Forms.Label Status_Label;
     }
 }
 

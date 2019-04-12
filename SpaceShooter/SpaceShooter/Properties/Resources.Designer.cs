@@ -143,6 +143,16 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Munition {
+            get {
+                object obj = ResourceManager.GetObject("Munition", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Player {
             get {
                 object obj = ResourceManager.GetObject("Player", resourceCulture);

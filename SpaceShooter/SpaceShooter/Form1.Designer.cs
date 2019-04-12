@@ -41,6 +41,8 @@
             this.LevelLogo_Label = new System.Windows.Forms.Label();
             this.Status_Label = new System.Windows.Forms.Label();
             this.Main_PictureBox = new System.Windows.Forms.PictureBox();
+            this.AttackEnemy_Timer = new System.Windows.Forms.Timer(this.components);
+            this.EnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,7 +90,7 @@
             // 
             // Rock_Timer
             // 
-            this.Rock_Timer.Interval = 30;
+            this.Rock_Timer.Interval = 20;
             this.Rock_Timer.Tick += new System.EventHandler(this.Rock_Timer_Tick);
             // 
             // Mark_Label
@@ -143,11 +145,11 @@
             // 
             this.Status_Label.AutoSize = true;
             this.Status_Label.BackColor = System.Drawing.Color.Transparent;
-            this.Status_Label.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Status_Label.Font = new System.Drawing.Font("Microsoft PhagsPa", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Status_Label.ForeColor = System.Drawing.Color.Red;
-            this.Status_Label.Location = new System.Drawing.Point(131, 168);
+            this.Status_Label.Location = new System.Drawing.Point(117, 173);
             this.Status_Label.Name = "Status_Label";
-            this.Status_Label.Size = new System.Drawing.Size(245, 55);
+            this.Status_Label.Size = new System.Drawing.Size(277, 63);
             this.Status_Label.TabIndex = 36;
             this.Status_Label.Text = "Game Over";
             this.Status_Label.Visible = false;
@@ -163,6 +165,15 @@
             this.Main_PictureBox.TabIndex = 3;
             this.Main_PictureBox.TabStop = false;
             this.Main_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_PictureBox_MouseMove);
+            // 
+            // AttackEnemy_Timer
+            // 
+            this.AttackEnemy_Timer.Interval = 15;
+            this.AttackEnemy_Timer.Tick += new System.EventHandler(this.AttackEnemy_Timer_Tick);
+            // 
+            // EnemyBullet_Timer
+            // 
+            this.EnemyBullet_Timer.Interval = 30;
             // 
             // Form1
             // 
@@ -184,7 +195,6 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -206,6 +216,8 @@
         private System.Windows.Forms.Label Level_Label;
         private System.Windows.Forms.Label LevelLogo_Label;
         private System.Windows.Forms.Label Status_Label;
+        private System.Windows.Forms.Timer AttackEnemy_Timer;
+        private System.Windows.Forms.Timer EnemyBullet_Timer;
     }
 }
 

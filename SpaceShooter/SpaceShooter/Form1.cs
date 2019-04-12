@@ -15,7 +15,7 @@ namespace SpaceShooter
     {
         Graphics gp;
         Bitmap bitmap;
-        Random rd;
+        Random rd = new Random();
         Star[] ListStar = new Star[13];
         List<Enemy> ListEnemy;
         List<AttackEnemy> ListAttackEnemy;
@@ -43,7 +43,7 @@ namespace SpaceShooter
             Status_Label.Parent = Main_PictureBox;
             Status_Label.Hide();
 
-            rd = new Random();
+           // rd = new Random();
 
             MyRock.Location.X = rd.Next(0, 500);
             MyRock.Location.Y = rd.Next(-200, -100);
@@ -86,7 +86,6 @@ namespace SpaceShooter
         }
         private void StarTimer_Tick(object sender, EventArgs e)
         {
-            rd = new Random();
             for (int i = 0; i < ListStar.Length; i++)
             {
                 if (ListStar[i].StarType == 1)
@@ -127,7 +126,7 @@ namespace SpaceShooter
                 MyRock.Type = rd.Next(1, 6);
                 if (MyRock.Type != 1)
                 {
-                    int TempType = rd.Next(1, 3);
+                    int TempType = rd.Next(0, 4);
                     PointF Temp = new PointF();
                     Temp.Y = rd.Next(Main_PictureBox.Height, Main_PictureBox.Height+50);
                     if (TempType == 1)
@@ -182,7 +181,6 @@ namespace SpaceShooter
         }
         private void Enemy_Timer_Tick(object sender, EventArgs e)
         {
-            rd = new Random();
             for (int i = 0; i < ListEnemy.Count; i++)
             {
                 if (ListEnemy[i].EnemyType == 1 || ListEnemy[i].EnemyType == 2)
@@ -223,13 +221,13 @@ namespace SpaceShooter
             TempEnemy.Location.X = rd.Next(0, 450);
             TempEnemy.Location.Y = rd.Next(-200,-100);
             TempEnemy.EnemyType = rd.Next(0, 2);
+            TempEnemy.EnemyBullet = new List<Bullet>();
         }
 
         public void InitalizeAttackEnemy(ref AttackEnemy TempEnemy)
         {
-            rd = new Random();
-            TempEnemy.EnemyType = rd.Next(1, 2);
-
+            TempEnemy.EnemyType = rd.Next();
+            TempEnemy.EnemyType = (TempEnemy.EnemyType % 2) == 1 ? 1 : 2;
             if (TempEnemy.EnemyType == 1)
             {
                 TempEnemy.Location.X = rd.Next(-200, -100);
@@ -242,7 +240,7 @@ namespace SpaceShooter
 
             PointF TempPoint = new PointF();
             TempPoint.X = rd.Next(225, 275);
-            TempPoint.Y = rd.Next(275, 350);
+            TempPoint.Y = rd.Next(200, 500);
 
             if (TempEnemy.Location.X - TempPoint.X == 0)
             {
@@ -370,9 +368,6 @@ namespace SpaceShooter
                 }
             }
             Main_PictureBox.Image = bitmap;
-            //this.Invalidate();
-            //Application.DoEvents();
-            //System.Threading.Thread.Sleep(1);
         }
        
         private void Main_PictureBox_MouseMove(object sender, MouseEventArgs e)

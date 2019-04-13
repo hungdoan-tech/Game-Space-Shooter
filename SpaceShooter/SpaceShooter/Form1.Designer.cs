@@ -43,6 +43,7 @@
             this.Main_PictureBox = new System.Windows.Forms.PictureBox();
             this.AttackEnemy_Timer = new System.Windows.Forms.Timer(this.components);
             this.EnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
+            this.AttackEnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -176,6 +177,11 @@
             this.EnemyBullet_Timer.Interval = 30;
             this.EnemyBullet_Timer.Tick += new System.EventHandler(this.EnemyBullet_Timer_Tick);
             // 
+            // AttackEnemyBullet_Timer
+            // 
+            this.AttackEnemyBullet_Timer.Interval = 30;
+            this.AttackEnemyBullet_Timer.Tick += new System.EventHandler(this.AttackEnemyBullet_Timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,6 +225,7 @@
         private System.Windows.Forms.Label Status_Label;
         private System.Windows.Forms.Timer AttackEnemy_Timer;
         private System.Windows.Forms.Timer EnemyBullet_Timer;
+        private System.Windows.Forms.Timer AttackEnemyBullet_Timer;
     }
 }
 

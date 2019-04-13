@@ -71,12 +71,7 @@ namespace SpaceShooter
             KhoiTaoEnemy();
 
             ListAttackEnemy = new List<AttackEnemy>();
-            for (int i = 0; i < MyPlayer.Level; i++)
-            {
-                AttackEnemy TempEnemy = new AttackEnemy();
-                InitalizeAttackEnemy(ref TempEnemy);
-                ListAttackEnemy.Add(TempEnemy);
-            }
+            KhoiTaoAttackEnemy();
         }
        
         private void StarTimer_Tick(object sender, EventArgs e)
@@ -107,7 +102,7 @@ namespace SpaceShooter
         {
             if (MyRock.Type == 1)
             {
-                MyRock.Location.Y += MyPlayer.Level+5;
+                MyRock.Location.Y += MyPlayer.Level+3;
             }
             else
             {
@@ -117,7 +112,7 @@ namespace SpaceShooter
             if (MyRock.Location.Y > Main_PictureBox.Height+10)
             {
                 MyRock.Location.X = rd.Next(20, 440);
-                MyRock.Location.Y = -500;
+                MyRock.Location.Y = -300;
                 MyRock.Type = rd.Next(1, 6);
                 if (MyRock.Type != 1)
                 {
@@ -151,28 +146,26 @@ namespace SpaceShooter
 
                 if (ListAttackEnemy[i].EnemyType == 1)
                 {
-                    if (ListAttackEnemy[i].Location.X > Main_PictureBox.Width)
+                    if (ListAttackEnemy[i].Location.X > Main_PictureBox.Width+100)
                     {
                         ListAttackEnemy.RemoveAt(i);
-                        AttackEnemy TempEnemy = new AttackEnemy();
-                        InitalizeAttackEnemy(ref TempEnemy);
-                        ListAttackEnemy.Add(TempEnemy);
                     }
                 }
                 else
                 {
                     if (ListAttackEnemy[i].EnemyType == 2)
                     {
-                        if (ListAttackEnemy[i].Location.X < -150)
+                        if (ListAttackEnemy[i].Location.X < -100)
                         {
                             ListAttackEnemy.RemoveAt(i);
-                            AttackEnemy TempEnemy = new AttackEnemy();
-                            InitalizeAttackEnemy(ref TempEnemy);
-                            ListAttackEnemy.Add(TempEnemy);
                         }
                     }
                 }
-            }           
+            }
+            if (ListAttackEnemy.Count == 0)
+            {
+                KhoiTaoAttackEnemy();
+            }
         }
         private void Enemy_Timer_Tick(object sender, EventArgs e)
         {
@@ -224,6 +217,75 @@ namespace SpaceShooter
                 }
             }
         }
+        private void KhoiTaoAttackEnemy()
+        {
+            for (int i = 0; i < MyPlayer.Level; i++)
+            {
+                AttackEnemy TempEnemy = new AttackEnemy();
+                InitalizeAttackEnemy(ref TempEnemy);
+                ListAttackEnemy.Add(TempEnemy);
+            }
+            for (int i = 0; i < ListAttackEnemy.Count; i++)
+            {
+                if (rd.Next(0, 3) != 1)
+                {
+                    Bullet NewBullet = new Bullet();
+                    NewBullet.Location = ListAttackEnemy[i].Location;
+                    NewBullet.Location.X += 15;
+
+                    NewBullet.a = (MyPlayer.Location.Y - NewBullet.Location.Y) / (MyPlayer.Location.X - NewBullet.Location.X);
+                    NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+                    NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
+                    NewBullet.Times = 0;
+                    ListAttackEnemy[i].EnemyBullet.Add(NewBullet);
+                }
+            }
+        }
+        private void AttackEnemyBullet_Timer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ListAttackEnemy.Count; i++)
+            {
+                for (int j = 0; j < ListAttackEnemy[i].EnemyBullet.Count; j++)
+                {
+                    ListAttackEnemy[i].EnemyBullet[j].Location.X += ListAttackEnemy[i].EnemyBullet[j].DeltaX;
+                    ListAttackEnemy[i].EnemyBullet[j].Location.Y = (ListAttackEnemy[i].EnemyBullet[j].Location.X * ListAttackEnemy[i].EnemyBullet[j].a) + ListAttackEnemy[i].EnemyBullet[j].b;
+                    ListAttackEnemy[i].EnemyBullet[j].Times++;
+                    if (ListAttackEnemy[i].EnemyBullet[j].Times == 10)
+                    {
+                        ListAttackEnemy[i].EnemyBullet[j].Times = 0;
+                        if (MyPlayer.Location.Y - ListAttackEnemy[i].EnemyBullet[j].Location.Y == 0)
+                        {
+                            ListAttackEnemy[i].EnemyBullet[j].Location.Y += 2;
+                        }
+                        if (MyPlayer.Location.X - ListAttackEnemy[i].EnemyBullet[j].Location.X == 0)
+                        {
+                            ListAttackEnemy[i].EnemyBullet[j].Location.X += 2;
+                        }
+                        ListAttackEnemy[i].EnemyBullet[j].a = (MyPlayer.Location.Y+35- ListAttackEnemy[i].EnemyBullet[j].Location.Y) / (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X);
+                        ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
+                        ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 50;
+                    }
+                    if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
+                    {
+                        ListAttackEnemy[i].EnemyBullet[j].Times = 0;
+                        Bullet NewBullet = new Bullet();
+                        NewBullet.Location = ListAttackEnemy[i].Location;
+                        NewBullet.Location.X += 15;
+                        if (MyPlayer.Location.Y - NewBullet.Location.Y == 0)
+                        {
+                            NewBullet.Location.Y += 2;
+                        }
+                        if (MyPlayer.Location.X - NewBullet.Location.X == 0)
+                        {
+                            NewBullet.Location.X += 2;
+                        }
+                        NewBullet.a = (MyPlayer.Location.Y - NewBullet.Location.Y) / (MyPlayer.Location.X - NewBullet.Location.X);
+                        NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+                        NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
+                    }
+                }
+            }
+        }
         private void KhoiTaoEnemy()
         {
             for (int i = 0; i < 2 + MyPlayer.Level; i++)
@@ -268,7 +330,7 @@ namespace SpaceShooter
 
             PointF TempPoint = new PointF();
             TempPoint.X = rd.Next(225, 275);
-            TempPoint.Y = rd.Next(200, 500);
+            TempPoint.Y = rd.Next(200, 430);
 
             if (TempEnemy.Location.X - TempPoint.X == 0)
             {
@@ -283,6 +345,7 @@ namespace SpaceShooter
             TempEnemy.b = -(TempEnemy.a * X3);
             TempEnemy.c = TempEnemy.Location.Y - (TempEnemy.a * (TempEnemy.Location.X * TempEnemy.Location.X)) - (TempEnemy.b * TempEnemy.Location.X);
             TempEnemy.DeltaX = (TempPoint.X - TempEnemy.Location.X) / 400;
+            TempEnemy.EnemyBullet = new List<Bullet>();
         }
 
         public void KiemTra()
@@ -385,6 +448,10 @@ namespace SpaceShooter
                 {
                     gp.DrawImage(Properties.Resources.ufo, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
                 }
+                for (int j = 0; j < ListAttackEnemy[i].EnemyBullet.Count; j++)
+                {
+                    gp.DrawImage(Properties.Resources.Munition, ListAttackEnemy[i].EnemyBullet[j].Location);
+                }
             }
             gp.DrawImage(Properties.Resources.Rock, MyRock.Location);
             if (IsStart==true)
@@ -423,6 +490,7 @@ namespace SpaceShooter
             Bullet_Timer.Start();
             AttackEnemy_Timer.Start();
             EnemyBullet_Timer.Start();
+            AttackEnemyBullet_Timer.Start();
         }
         private void Exit_Button_Click(object sender, EventArgs e)
         {
@@ -479,6 +547,7 @@ namespace SpaceShooter
             public PointF Location;
             public float a;
             public float b;
+            public float Times;
             public float DeltaX;
         }
         public class Rock

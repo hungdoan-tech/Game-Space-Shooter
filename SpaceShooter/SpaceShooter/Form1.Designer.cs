@@ -85,7 +85,7 @@
             // 
             // Bullet_Timer
             // 
-            this.Bullet_Timer.Interval = 2;
+            this.Bullet_Timer.Interval = 1;
             this.Bullet_Timer.Tick += new System.EventHandler(this.Bullet_Timer_Tick);
             // 
             // Rock_Timer
@@ -174,6 +174,7 @@
             // EnemyBullet_Timer
             // 
             this.EnemyBullet_Timer.Interval = 30;
+            this.EnemyBullet_Timer.Tick += new System.EventHandler(this.EnemyBullet_Timer_Tick);
             // 
             // Form1
             // 

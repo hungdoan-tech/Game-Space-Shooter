@@ -32,20 +32,18 @@ namespace SpaceShooter
         }
         private void KhoiTao()
         {
-            Mark_Label.Hide();
-            MarkLogo_Label.Hide();
             Mark_Label.Parent = Main_PictureBox;
             MarkLogo_Label.Parent = Main_PictureBox;
             LevelLogo_Label.Parent = Main_PictureBox;
             Level_Label.Parent = Main_PictureBox;
+            Status_Label.Parent = Main_PictureBox;
             LevelLogo_Label.Hide();
             Level_Label.Hide();
-            Status_Label.Parent = Main_PictureBox;
             Status_Label.Hide();
+            Mark_Label.Hide();
+            MarkLogo_Label.Hide();
 
-           // rd = new Random();
-
-            MyRock.Location.X = rd.Next(0, 500);
+            MyRock.Location.X = rd.Next(0, 450);
             MyRock.Location.Y = rd.Next(-200, -100);
             MyRock.Type = 1;
 
@@ -68,13 +66,9 @@ namespace SpaceShooter
                 ListStar[i].Location.Y = rd.Next(100, 600);
                 ListStar[i].StarType = rd.Next(0, 2);
             }
+
             ListEnemy = new List<Enemy>();
-            for (int i = 0; i < 2 + MyPlayer.Level; i++)
-            {
-                Enemy TempEnemy = new Enemy();
-                InitalizeEnemy(ref TempEnemy);
-                ListEnemy.Add(TempEnemy);
-            }
+            KhoiTaoEnemy();
 
             ListAttackEnemy = new List<AttackEnemy>();
             for (int i = 0; i < MyPlayer.Level; i++)
@@ -84,17 +78,18 @@ namespace SpaceShooter
                 ListAttackEnemy.Add(TempEnemy);
             }
         }
+       
         private void StarTimer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < ListStar.Length; i++)
             {
                 if (ListStar[i].StarType == 1)
                 {
-                    ListStar[i].Location.Y += 2;
+                    ListStar[i].Location.Y += 1;
                 }
                 else
                 {
-                    ListStar[i].Location.Y += 3;
+                    ListStar[i].Location.Y += 2;
                 }
             }
             for (int i = 0; i < ListStar.Length; i++)
@@ -112,7 +107,7 @@ namespace SpaceShooter
         {
             if (MyRock.Type == 1)
             {
-                MyRock.Location.Y += MyPlayer.Level+6;
+                MyRock.Location.Y += MyPlayer.Level+5;
             }
             else
             {
@@ -122,7 +117,7 @@ namespace SpaceShooter
             if (MyRock.Location.Y > Main_PictureBox.Height+10)
             {
                 MyRock.Location.X = rd.Next(20, 440);
-                MyRock.Location.Y = -700;
+                MyRock.Location.Y = -500;
                 MyRock.Type = rd.Next(1, 6);
                 if (MyRock.Type != 1)
                 {
@@ -143,7 +138,7 @@ namespace SpaceShooter
                     }
                    MyRock.a = (MyRock.Location.Y - Temp.Y) / (MyRock.Location.X - Temp.X);
                    MyRock.b = MyRock.Location.Y - (MyRock.a * MyRock.Location.X);
-                   MyRock.DeltaX = (Temp.X - MyRock.Location.X)/250;
+                   MyRock.DeltaX = (Temp.X - MyRock.Location.X)/400;
                 }
             }
         }
@@ -191,16 +186,14 @@ namespace SpaceShooter
                 {
                     ListEnemy[i].Location.Y += MyPlayer.Level + 2;
                 }
-            }
-            for (int i = 0; i < ListEnemy.Count; i++)
-            {
                 if (ListEnemy[i].Location.Y >= Main_PictureBox.Height)
                 {
                     ListEnemy.RemoveAt(i);
-                    Enemy Temp = new Enemy();
-                    InitalizeEnemy(ref Temp);
-                    ListEnemy.Add(Temp);
                 }
+            }
+            if(ListEnemy.Count == 0)
+            {
+                KhoiTaoEnemy();
             }
         }
         private void Bullet_Timer_Tick(object sender, EventArgs e)
@@ -216,11 +209,46 @@ namespace SpaceShooter
             }
         }
 
+        private void EnemyBullet_Timer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ListEnemy.Count; i++)
+            {
+                for (int j = 0; j < ListEnemy[i].EnemyBullet.Count;j++)
+                {
+                    ListEnemy[i].EnemyBullet[j].Location.Y += 5;
+                    if (ListEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
+                    {
+                        ListEnemy[i].EnemyBullet[j].Location = ListEnemy[i].Location;
+                        ListEnemy[i].EnemyBullet[j].Location.X += 15;
+                    }
+                }
+            }
+        }
+        private void KhoiTaoEnemy()
+        {
+            for (int i = 0; i < 2 + MyPlayer.Level; i++)
+            {
+                Enemy TempEnemy = new Enemy();
+                InitalizeEnemy(ref TempEnemy);
+                ListEnemy.Add(TempEnemy);
+            }
+            for (int i = 0; i < ListEnemy.Count; i++)
+            {
+                if (rd.Next(0, 3)!=1)
+                {
+                    Bullet NewBullet = new Bullet();
+                    NewBullet.Location = ListEnemy[i].Location;
+                    NewBullet.Location.X += 15;
+                    ListEnemy[i].EnemyBullet.Add(NewBullet);
+                }
+            }
+        }
+
         public void InitalizeEnemy(ref Enemy TempEnemy)
         {
             TempEnemy.Location.X = rd.Next(0, 450);
             TempEnemy.Location.Y = rd.Next(-200,-100);
-            TempEnemy.EnemyType = rd.Next(0, 2);
+            TempEnemy.EnemyType = rd.Next(0, 3);
             TempEnemy.EnemyBullet = new List<Bullet>();
         }
 
@@ -266,22 +294,15 @@ namespace SpaceShooter
                     if (KiemTraBanTrung(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
                     {
                         ListEnemy.RemoveAt(i);
-                        Enemy Temp = new Enemy();
-                        Temp.Location.X = rd.Next(0, 500);
-                        Temp.Location.Y = -100;
-                        Temp.EnemyType = rd.Next(0, 2);
-                        ListEnemy.Add(Temp);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
                         MyPlayer.Mark++;
-                        if (MyPlayer.Mark == 50)
+                        if (MyPlayer.Mark == 30)
                         {
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
 
                             Enemy TempEnemy = new Enemy();
-                            TempEnemy.Location.X = rd.Next(0, 450);
-                            TempEnemy.Location.Y = rd.Next(-200, -100);
-                            TempEnemy.EnemyType = rd.Next(1, 3);
+                            InitalizeEnemy(ref TempEnemy);
                             ListEnemy.Add(TempEnemy);
 
                             AttackEnemy TempAttackEnemy = new AttackEnemy();
@@ -290,9 +311,14 @@ namespace SpaceShooter
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
-                        return;
+                        i = ListEnemy.Count + 1;
+                        break;
                     }
                 }
+            }
+            if (ListEnemy.Count == 0)
+            {
+                KhoiTaoEnemy();
             }
         }
         public bool KiemTraBanTrung(PointF a, PointF b)
@@ -306,8 +332,6 @@ namespace SpaceShooter
             }
             return false;
         }
-
-
 
         public void Draw()
         {
@@ -344,7 +368,11 @@ namespace SpaceShooter
                     else
                     {
                         gp.DrawImage(Properties.Resources.EnemyRed, ListEnemy[i].Location.X, ListEnemy[i].Location.Y);
-                    }
+                    }     
+                }
+                for (int j = 0; j < ListEnemy[i].EnemyBullet.Count; j++)
+                {
+                    gp.FillRectangle(new SolidBrush(Color.Yellow), ListEnemy[i].EnemyBullet[j].Location.X, ListEnemy[i].EnemyBullet[j].Location.Y, 3, 20);
                 }
             }
             for (int i = 0; i < ListAttackEnemy.Count; i++)
@@ -377,11 +405,6 @@ namespace SpaceShooter
                 MyPlayer.Location.Y = 100;
                 return;
             }
-            if (MyPlayer.Location.X > 580)
-            {
-                MyPlayer.Location.X = 580;
-                return;
-            }
             MyPlayer.Location = e.Location;
         }
         private void Start_Button_Click(object sender, EventArgs e)
@@ -399,6 +422,7 @@ namespace SpaceShooter
             Rock_Timer.Start();
             Bullet_Timer.Start();
             AttackEnemy_Timer.Start();
+            EnemyBullet_Timer.Start();
         }
         private void Exit_Button_Click(object sender, EventArgs e)
         {

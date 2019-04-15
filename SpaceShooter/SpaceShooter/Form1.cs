@@ -59,6 +59,7 @@ namespace SpaceShooter
             Bullet TempBullet = new Bullet();
             TempBullet.Location = MyPlayer.Location;
             TempBullet.Location.Y -= 80;
+            TempBullet.Location.X += 17;
             MyPlayer.MyBullet.Add(TempBullet);
 
             for (int i = 0; i < ListStar.Length; i++)
@@ -227,6 +228,7 @@ namespace SpaceShooter
                 if (MyPlayer.MyBullet[i].Location.Y < 0)
                 {
                     MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                    MyPlayer.MyBullet[i].Location.X += 17;
                 }
                 KiemTra();
             }
@@ -279,7 +281,7 @@ namespace SpaceShooter
                         }
                         ListAttackEnemy[i].EnemyBullet[j].a = (MyPlayer.Location.Y+35- ListAttackEnemy[i].EnemyBullet[j].Location.Y) / (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X);
                         ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
-                        ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 50;
+                        ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 30;
                     }
                     //if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
                     //{
@@ -375,6 +377,7 @@ namespace SpaceShooter
                     {
                         ListEnemy.RemoveAt(i);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                        MyPlayer.MyBullet[j].Location.X += 17;
                         MyPlayer.Mark++;
                         if (MyPlayer.Mark == 30)
                         {
@@ -395,7 +398,7 @@ namespace SpaceShooter
                         break;
                     }
                 }
-               // if (ListEnemy[i].Location.Y > 0)
+                // if (ListEnemy[i].Location.Y > 0)
                 //{
                 //    if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 30 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X && MyPlayer.Location.Y <= ListEnemy[i].Location.Y - 2)
                 //    {
@@ -424,6 +427,7 @@ namespace SpaceShooter
                     {
                         ListAttackEnemy.RemoveAt(i);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                        MyPlayer.MyBullet[j].Location.X += 17;
                         MyPlayer.Mark++;
                         if (MyPlayer.Mark == 30)
                         {

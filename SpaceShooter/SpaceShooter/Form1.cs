@@ -354,7 +354,7 @@ namespace SpaceShooter
             {
                 for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
                 {
-                    if (KiemTraBanTrung(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
+                    if (KiemTraBanTrungEnemy(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
                     {
                         ListEnemy.RemoveAt(i);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
@@ -383,12 +383,56 @@ namespace SpaceShooter
             {
                 KhoiTaoEnemy();
             }
+            for (int i = 0; i < ListAttackEnemy.Count; i++)
+            {
+                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
+                {
+                    if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i].Location) == true)
+                    {
+                        ListAttackEnemy.RemoveAt(i);
+                        MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                        MyPlayer.Mark++;
+                        if (MyPlayer.Mark == 30)
+                        {
+                            MyPlayer.Mark = 0;
+                            MyPlayer.Level++;
+
+                            Enemy TempEnemy = new Enemy();
+                            InitalizeEnemy(ref TempEnemy);
+                            ListEnemy.Add(TempEnemy);
+
+                            AttackEnemy TempAttackEnemy = new AttackEnemy();
+                            InitalizeAttackEnemy(ref TempAttackEnemy);
+                            ListAttackEnemy.Add(TempAttackEnemy);
+                        }
+                        Mark_Label.Text = MyPlayer.Mark.ToString();
+                        Level_Label.Text = MyPlayer.Level.ToString();
+                        i = ListAttackEnemy.Count + 1;
+                        break;
+                    }
+                }
+            }
+            if (ListAttackEnemy.Count == 0)
+            {
+                KhoiTaoAttackEnemy();
+            }
         }
-        public bool KiemTraBanTrung(PointF a, PointF b)
+        public bool KiemTraBanTrungEnemy(PointF a, PointF b)
         {
             if (a.Y >= 0)
             {
                 if (a.X <= b.X + 30 && a.X + 7 >= b.X && a.Y <= b.Y - 2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool KiemTraBanTrungAttackEnemy(PointF a, PointF b)
+        {
+            if (a.Y >= 0)
+            {
+                if (a.X <= b.X + 75 && a.X + 5 >= b.X && a.Y <= b.Y - 2)
                 {
                     return true;
                 }
@@ -545,6 +589,7 @@ namespace SpaceShooter
         public class Bullet
         {
             public PointF Location;
+            public int TypeBullet;
             public float a;
             public float b;
             public float Times;

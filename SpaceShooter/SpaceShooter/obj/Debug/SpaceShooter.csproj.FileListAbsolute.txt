@@ -28,3 +28,17 @@ E:\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.Generate
 E:\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.CoreCompileInputs.cache
 E:\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
 E:\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe.config
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\Interop.WMPLib.dll
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.ResolveComReference.cache
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.exe
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.pdb
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.exe
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\SpaceShooter.pdb
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\Interop.WMPLib.dll
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csprojResolveAssemblyReference.cache
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Form1.resources
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.Properties.Resources.resources
+C:\Users\HungDoan\Documents\GitHub\SpaceShooter\SpaceShooter\SpaceShooter\obj\Debug\SpaceShooter.csproj.GenerateResource.Cache

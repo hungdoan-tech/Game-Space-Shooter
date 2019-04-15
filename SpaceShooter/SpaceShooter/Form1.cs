@@ -112,6 +112,11 @@ namespace SpaceShooter
                 MyRock.Location.X += MyRock.DeltaX;
                 MyRock.Location.Y = MyRock.a * MyRock.Location.X + MyRock.b;
             }
+            if (MyPlayer.Location.X <= MyRock.Location.X + 40 && MyPlayer.Location.X + 35 >= MyRock.Location.X && MyPlayer.Location.Y <= MyRock.Location.Y - 2)
+            {
+                GameOver();
+                return;
+            }
             if (MyRock.Location.Y > Main_PictureBox.Height+10)
             {
                 MyRock.Location.X = rd.Next(20, 440);
@@ -164,22 +169,19 @@ namespace SpaceShooter
                         }
                     }
                 }
+                if (ListAttackEnemy[i].Location.Y > 0)
+                {
+                    if (ListAttackEnemy[i].Location.X + 70 >= MyPlayer.Location.X && ListAttackEnemy[i].Location.X <= MyPlayer.Location.X + 35  && ListAttackEnemy[i].Location.Y + 70 >=  MyPlayer.Location.Y && ListAttackEnemy[i].Location.Y <= MyPlayer.Location.Y + 35)
+                    {
+                        GameOver();
+                        return;
+                    }
+                }
             }
             if (ListAttackEnemy.Count == 0)
             {
                 KhoiTaoAttackEnemy();
             }
-            //for (int i = 0; i < ListAttackEnemy.Count; i++)
-            //{
-            //    if (ListAttackEnemy[i].Location.Y > 0)
-            //    {
-            //        if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 80 >= ListAttackEnemy[i].Location.X && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y - 2)
-            //        {
-            //            GameOver();
-            //            return;
-            //        }
-            //    }
-            //}
         }
         private void Enemy_Timer_Tick(object sender, EventArgs e)
         {
@@ -196,6 +198,14 @@ namespace SpaceShooter
                 if (ListEnemy[i].Location.Y >= Main_PictureBox.Height)
                 {
                     ListEnemy.RemoveAt(i);
+                }
+                if (ListEnemy[i].Location.Y > 0)
+                {
+                    if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 30 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X && MyPlayer.Location.Y <= ListEnemy[i].Location.Y - 2)
+                    {
+                        GameOver();
+                        return;
+                    }
                 }
             }
             if(ListEnemy.Count == 0)
@@ -215,6 +225,11 @@ namespace SpaceShooter
                     {
                         ListEnemy[i].EnemyBullet[j].Location = ListEnemy[i].Location;
                         ListEnemy[i].EnemyBullet[j].Location.X += 15;
+                    }
+                    if (ListEnemy[i].EnemyBullet[j].Location.X + 3 >= MyPlayer.Location.X && ListEnemy[i].EnemyBullet[j].Location.X <= MyPlayer.Location.X + 35  && ListEnemy[i].EnemyBullet[j].Location.Y + 2 >= MyPlayer.Location.Y)
+                    {
+                        GameOver();
+                        return;
                     }
                 }
             }
@@ -283,6 +298,13 @@ namespace SpaceShooter
                         ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
                         ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 30;
                     }
+
+                    if (ListAttackEnemy[i].EnemyBullet[j].Location.X + 20 >= MyPlayer.Location.X && ListAttackEnemy[i].EnemyBullet[j].Location.X <= MyPlayer.Location.X + 35 && ListAttackEnemy[i].EnemyBullet[j].Location.Y + 2 >= MyPlayer.Location.Y)
+                    {
+                        GameOver();
+                        return;
+                    }
+
                     //if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
                     //{
                     //    ListAttackEnemy[i].EnemyBullet[j].Times = 0;
@@ -397,23 +419,7 @@ namespace SpaceShooter
                         i = ListEnemy.Count + 1;
                         break;
                     }
-                }
-                // if (ListEnemy[i].Location.Y > 0)
-                //{
-                //    if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 30 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X && MyPlayer.Location.Y <= ListEnemy[i].Location.Y - 2)
-                //    {
-                //        GameOver();
-                //        return;
-                //    }                    
-                //}
-                //for (int j = 0; j < ListEnemy[i].EnemyBullet.Count; j++)
-                //{
-                //    if (MyPlayer.Location.X <= ListEnemy[i].EnemyBullet[j].Location.X + 3 && MyPlayer.Location.X + 35 >= ListEnemy[i].EnemyBullet[j].Location.X && MyPlayer.Location.Y <= ListEnemy[i].EnemyBullet[j].Location.Y - 2)
-                //    {
-                //        GameOver();
-                //        return;
-                //    }
-                //}
+                }                             
             }
             if (ListEnemy.Count == 0)
             {

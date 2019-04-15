@@ -39,7 +39,6 @@
             this.MarkLogo_Label = new System.Windows.Forms.Label();
             this.Level_Label = new System.Windows.Forms.Label();
             this.LevelLogo_Label = new System.Windows.Forms.Label();
-            this.Status_Label = new System.Windows.Forms.Label();
             this.Main_PictureBox = new System.Windows.Forms.PictureBox();
             this.AttackEnemy_Timer = new System.Windows.Forms.Timer(this.components);
             this.EnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
@@ -142,19 +141,6 @@
             this.LevelLogo_Label.TabIndex = 30;
             this.LevelLogo_Label.Text = "LEVEL:";
             // 
-            // Status_Label
-            // 
-            this.Status_Label.AutoSize = true;
-            this.Status_Label.BackColor = System.Drawing.Color.Transparent;
-            this.Status_Label.Font = new System.Drawing.Font("Microsoft PhagsPa", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Status_Label.ForeColor = System.Drawing.Color.Red;
-            this.Status_Label.Location = new System.Drawing.Point(117, 173);
-            this.Status_Label.Name = "Status_Label";
-            this.Status_Label.Size = new System.Drawing.Size(277, 63);
-            this.Status_Label.TabIndex = 36;
-            this.Status_Label.Text = "Game Over";
-            this.Status_Label.Visible = false;
-            // 
             // Main_PictureBox
             // 
             this.Main_PictureBox.BackColor = System.Drawing.Color.White;
@@ -174,12 +160,12 @@
             // 
             // EnemyBullet_Timer
             // 
-            this.EnemyBullet_Timer.Interval = 30;
+            this.EnemyBullet_Timer.Interval = 25;
             this.EnemyBullet_Timer.Tick += new System.EventHandler(this.EnemyBullet_Timer_Tick);
             // 
             // AttackEnemyBullet_Timer
             // 
-            this.AttackEnemyBullet_Timer.Interval = 30;
+            this.AttackEnemyBullet_Timer.Interval = 20;
             this.AttackEnemyBullet_Timer.Tick += new System.EventHandler(this.AttackEnemyBullet_Timer_Tick);
             // 
             // Form1
@@ -188,7 +174,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(503, 599);
-            this.Controls.Add(this.Status_Label);
             this.Controls.Add(this.Level_Label);
             this.Controls.Add(this.LevelLogo_Label);
             this.Controls.Add(this.Mark_Label);
@@ -222,7 +207,6 @@
         private System.Windows.Forms.Label MarkLogo_Label;
         private System.Windows.Forms.Label Level_Label;
         private System.Windows.Forms.Label LevelLogo_Label;
-        private System.Windows.Forms.Label Status_Label;
         private System.Windows.Forms.Timer AttackEnemy_Timer;
         private System.Windows.Forms.Timer EnemyBullet_Timer;
         private System.Windows.Forms.Timer AttackEnemyBullet_Timer;

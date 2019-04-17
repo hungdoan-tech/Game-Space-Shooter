@@ -148,13 +148,28 @@
     <None Include="Resources\ufo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ufo2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\game-over.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\wallhaven-323086.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ufo2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ufo3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UFO-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ufo5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3b2b23922ab44dae1ced628d82d3179a-ufo-spacecraft-by-vexels.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ufo6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

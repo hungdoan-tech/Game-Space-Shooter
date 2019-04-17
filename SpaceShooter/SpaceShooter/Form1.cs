@@ -112,7 +112,7 @@ namespace SpaceShooter
                 MyRock.Location.X += MyRock.DeltaX;
                 MyRock.Location.Y = MyRock.a * MyRock.Location.X + MyRock.b;
             }
-            if (MyPlayer.Location.X <= MyRock.Location.X + 40 && MyPlayer.Location.X + 35 >= MyRock.Location.X && MyPlayer.Location.Y <= MyRock.Location.Y - 2)
+            if (MyPlayer.Location.X <= MyRock.Location.X + 38 && MyPlayer.Location.X + 35 >= MyRock.Location.X+2 && MyPlayer.Location.Y <= MyRock.Location.Y+37 && MyPlayer.Location.Y +38 >= MyRock.Location.Y+6)
             {
                 GameOver();
                 return;
@@ -169,12 +169,16 @@ namespace SpaceShooter
                         }
                     }
                 }
-                if (ListAttackEnemy[i].Location.Y > 0)
+
+                if (ListAttackEnemy.Count != 0)
                 {
-                    if (ListAttackEnemy[i].Location.X + 70 >= MyPlayer.Location.X && ListAttackEnemy[i].Location.X <= MyPlayer.Location.X + 35  && ListAttackEnemy[i].Location.Y + 70 >=  MyPlayer.Location.Y && ListAttackEnemy[i].Location.Y <= MyPlayer.Location.Y + 35)
+                    if (ListAttackEnemy[i].Location.Y > 0)
                     {
-                        GameOver();
-                        return;
+                        if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 35 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
+                        {
+                            GameOver();
+                            return;
+                        }
                     }
                 }
             }
@@ -199,12 +203,15 @@ namespace SpaceShooter
                 {
                     ListEnemy.RemoveAt(i);
                 }
-                if (ListEnemy[i].Location.Y > 0)
+                if (ListEnemy.Count != 0)
                 {
-                    if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 30 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X && MyPlayer.Location.Y <= ListEnemy[i].Location.Y - 2)
+                    if (ListEnemy[i].Location.Y > 0)
                     {
-                        GameOver();
-                        return;
+                        if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 25 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X + 5 && MyPlayer.Location.Y <= ListEnemy[i].Location.Y + 23 && MyPlayer.Location.Y + 38 >= ListEnemy[i].Location.Y + 3)
+                        {
+                            GameOver();
+                            return;
+                        }
                     }
                 }
             }
@@ -226,7 +233,7 @@ namespace SpaceShooter
                         ListEnemy[i].EnemyBullet[j].Location = ListEnemy[i].Location;
                         ListEnemy[i].EnemyBullet[j].Location.X += 15;
                     }
-                    if (ListEnemy[i].EnemyBullet[j].Location.X + 3 >= MyPlayer.Location.X && ListEnemy[i].EnemyBullet[j].Location.X <= MyPlayer.Location.X + 35  && ListEnemy[i].EnemyBullet[j].Location.Y + 2 >= MyPlayer.Location.Y)
+                    if (MyPlayer.Location.X <= ListEnemy[i].EnemyBullet[j].Location.X + 3 && MyPlayer.Location.X + 35 >= ListEnemy[i].EnemyBullet[j].Location.X && MyPlayer.Location.Y <= ListEnemy[i].EnemyBullet[j].Location.Y + 20 && MyPlayer.Location.Y + 38 >= ListEnemy[i].EnemyBullet[j].Location.Y)
                     {
                         GameOver();
                         return;
@@ -244,6 +251,7 @@ namespace SpaceShooter
                 {
                     MyPlayer.MyBullet[i].Location = MyPlayer.Location;
                     MyPlayer.MyBullet[i].Location.X += 17;
+                    MyPlayer.MyBullet[i].Location.Y -= 20;
                 }
                 KiemTra();
             }
@@ -299,11 +307,11 @@ namespace SpaceShooter
                         ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 30;
                     }
 
-                    if (ListAttackEnemy[i].EnemyBullet[j].Location.X + 20 >= MyPlayer.Location.X && ListAttackEnemy[i].EnemyBullet[j].Location.X <= MyPlayer.Location.X + 35 && ListAttackEnemy[i].EnemyBullet[j].Location.Y + 2 >= MyPlayer.Location.Y)
-                    {
-                        GameOver();
-                        return;
-                    }
+                    //if (MyPlayer.Location.X <= ListAttackEnemy[i].EnemyBullet[j].Location.X + 12 && MyPlayer.Location.X + 35 >= ListAttackEnemy[i].EnemyBullet[j].Location.X + 7 && MyPlayer.Location.Y <= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 12 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 7)
+                    //{
+                    //    GameOver();
+                    //    return;
+                    //}
 
                     //if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
                     //{
@@ -387,6 +395,28 @@ namespace SpaceShooter
             TempEnemy.c = TempEnemy.Location.Y - (TempEnemy.a * (TempEnemy.Location.X * TempEnemy.Location.X)) - (TempEnemy.b * TempEnemy.Location.X);
             TempEnemy.DeltaX = (TempPoint.X - TempEnemy.Location.X) / 400;
             TempEnemy.EnemyBullet = new List<Bullet>();
+        }
+        public bool KiemTraBanTrungEnemy(PointF a, PointF b)
+        {
+            if (a.Y >= 0)
+            {
+                if (a.X <= b.X + 30 && a.X + 4 >= b.X + 3 && a.Y <= b.Y+ 23 && a.Y >= b.Y+3)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool KiemTraBanTrungAttackEnemy(PointF a, PointF b)
+        {
+            if (a.Y >= 0)
+            {
+                if (a.X <= b.X + 80 && a.X + 4 >= b.X +20 && a.Y <= b.Y + 65 && a.Y >= b.Y+23)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void KiemTra()
@@ -479,6 +509,8 @@ namespace SpaceShooter
             IsStart = false;
             Pause = true;
             KhoiTao();
+            Mark_Label.Text = MyPlayer.Mark.ToString();
+            Level_Label.Text = MyPlayer.Level.ToString();
             Cursor.Show();
         }
         public void DeleteAll()
@@ -488,29 +520,7 @@ namespace SpaceShooter
             MyPlayer = null;
             MyRock = null;
         }
-        public bool KiemTraBanTrungEnemy(PointF a, PointF b)
-        {
-            if (a.Y >= 0)
-            {
-                if (a.X <= b.X + 30 && a.X + 7 >= b.X && a.Y <= b.Y - 2)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public bool KiemTraBanTrungAttackEnemy(PointF a, PointF b)
-        {
-            if (a.Y >= 0)
-            {
-                if (a.X <= b.X + 75 && a.X + 5 >= b.X && a.Y <= b.Y - 2)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
+        
         public void Draw()
         {
             gp.Clear(Color.White);

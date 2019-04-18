@@ -21,7 +21,10 @@ namespace SpaceShooter
         List<AttackEnemy> ListAttackEnemy;
         Player MyPlayer;
         Rock MyRock;
+        Boss MyBoss;
         bool IsStart = false;
+        bool BossShow = false;
+        int HuongBoss;
         bool Pause = false;
         public Form1()
         {
@@ -112,7 +115,7 @@ namespace SpaceShooter
                 MyRock.Location.X += MyRock.DeltaX;
                 MyRock.Location.Y = MyRock.a * MyRock.Location.X + MyRock.b;
             }
-            if (MyPlayer.Location.X <= MyRock.Location.X + 38 && MyPlayer.Location.X + 35 >= MyRock.Location.X+2 && MyPlayer.Location.Y <= MyRock.Location.Y+37 && MyPlayer.Location.Y +38 >= MyRock.Location.Y+6)
+            if (MyPlayer.Location.X <= MyRock.Location.X + 38 && MyPlayer.Location.X + 42 >= MyRock.Location.X+2 && MyPlayer.Location.Y <= MyRock.Location.Y+37 && MyPlayer.Location.Y +38 >= MyRock.Location.Y+6)
             {
                 GameOver();
                 return;
@@ -154,7 +157,7 @@ namespace SpaceShooter
 
                 if (ListAttackEnemy[i].EnemyType == 1)
                 {
-                    if (ListAttackEnemy[i].Location.X > Main_PictureBox.Width+100)
+                    if (ListAttackEnemy[i].Location.X > Main_PictureBox.Width + 100)
                     {
                         ListAttackEnemy.RemoveAt(i);
                     }
@@ -169,22 +172,24 @@ namespace SpaceShooter
                         }
                     }
                 }
-
-                if (ListAttackEnemy.Count != 0)
+            }
+            if (ListAttackEnemy.Count == 0)
+            {
+                KhoiTaoAttackEnemy();
+            }
+            else
+            {
+                for (int i = 0; i < ListAttackEnemy.Count; i++)
                 {
                     if (ListAttackEnemy[i].Location.Y > 0)
                     {
-                        if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 35 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
+                        if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
                         {
                             GameOver();
                             return;
                         }
                     }
                 }
-            }
-            if (ListAttackEnemy.Count == 0)
-            {
-                KhoiTaoAttackEnemy();
             }
         }
         private void Enemy_Timer_Tick(object sender, EventArgs e)
@@ -203,11 +208,14 @@ namespace SpaceShooter
                 {
                     ListEnemy.RemoveAt(i);
                 }
-                if (ListEnemy.Count != 0)
+            }
+            if (ListEnemy.Count != 0)
+            {
+                for (int i = 0; i < ListEnemy.Count; i++)
                 {
                     if (ListEnemy[i].Location.Y > 0)
                     {
-                        if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 25 && MyPlayer.Location.X + 35 >= ListEnemy[i].Location.X + 5 && MyPlayer.Location.Y <= ListEnemy[i].Location.Y + 23 && MyPlayer.Location.Y + 38 >= ListEnemy[i].Location.Y + 3)
+                        if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 25 && MyPlayer.Location.X + 42 >= ListEnemy[i].Location.X + 5 && MyPlayer.Location.Y <= ListEnemy[i].Location.Y + 23 && MyPlayer.Location.Y + 38 >= ListEnemy[i].Location.Y + 3)
                         {
                             GameOver();
                             return;
@@ -215,11 +223,10 @@ namespace SpaceShooter
                     }
                 }
             }
-            if(ListEnemy.Count == 0)
+            else
             {
-                KhoiTaoEnemy();
+                 KhoiTaoEnemy();
             }
-            
         }
         private void EnemyBullet_Timer_Tick(object sender, EventArgs e)
         {
@@ -233,7 +240,7 @@ namespace SpaceShooter
                         ListEnemy[i].EnemyBullet[j].Location = ListEnemy[i].Location;
                         ListEnemy[i].EnemyBullet[j].Location.X += 15;
                     }
-                    if (MyPlayer.Location.X <= ListEnemy[i].EnemyBullet[j].Location.X + 3 && MyPlayer.Location.X + 35 >= ListEnemy[i].EnemyBullet[j].Location.X && MyPlayer.Location.Y <= ListEnemy[i].EnemyBullet[j].Location.Y + 20 && MyPlayer.Location.Y + 38 >= ListEnemy[i].EnemyBullet[j].Location.Y)
+                    if (MyPlayer.Location.X <= ListEnemy[i].EnemyBullet[j].Location.X + 3 && MyPlayer.Location.X + 42 >= ListEnemy[i].EnemyBullet[j].Location.X && MyPlayer.Location.Y <= ListEnemy[i].EnemyBullet[j].Location.Y + 20 && MyPlayer.Location.Y + 38 >= ListEnemy[i].EnemyBullet[j].Location.Y)
                     {
                         GameOver();
                         return;
@@ -256,8 +263,36 @@ namespace SpaceShooter
                 KiemTra();
             }
         }
+        private void Boss_Timer_Tick(object sender, EventArgs e)
+        {
+            if (MyBoss.Location.Y < 50)
+            {
+                MyBoss.Location.Y += 2;
+            }
+            else
+            {
+                if (HuongBoss == 0)
+                {
+                    MyBoss.Location.X -= 1;
+                }
+                else
+                {
+                    if (HuongBoss == 1)
+                    {
+                        MyBoss.Location.X += 1;
+                    }
+                }
+                if (MyBoss.Location.X > Main_PictureBox.Width-320)
+                {
+                    HuongBoss = 0;
+                }
+                if (MyBoss.Location.X < -50)
+                {
+                    HuongBoss = 1;
+                }
+            }
+        }
 
-       
         private void KhoiTaoAttackEnemy()
         {
             for (int i = 0; i < MyPlayer.Level; i++)
@@ -307,7 +342,7 @@ namespace SpaceShooter
                         ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 30;
                     }
 
-                    //if (MyPlayer.Location.X <= ListAttackEnemy[i].EnemyBullet[j].Location.X + 12 && MyPlayer.Location.X + 35 >= ListAttackEnemy[i].EnemyBullet[j].Location.X + 7 && MyPlayer.Location.Y <= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 12 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 7)
+                    //if (MyPlayer.Location.X <= ListAttackEnemy[i].EnemyBullet[j].Location.X + 12 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].EnemyBullet[j].Location.X + 7 && MyPlayer.Location.Y <= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 12 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 7)
                     //{
                     //    GameOver();
                     //    return;
@@ -431,7 +466,7 @@ namespace SpaceShooter
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
                         MyPlayer.MyBullet[j].Location.X += 17;
                         MyPlayer.Mark++;
-                        if (MyPlayer.Mark == 30)
+                        if (MyPlayer.Mark == 2)
                         {
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
@@ -451,9 +486,16 @@ namespace SpaceShooter
                     }
                 }                             
             }
-            if (ListEnemy.Count == 0)
+            if (MyPlayer.Level < 3)
             {
-                KhoiTaoEnemy();
+                if (ListEnemy.Count == 0)
+                {
+                    KhoiTaoEnemy();
+                }
+            }
+            else
+            {
+                ListEnemy.Clear();
             }
             for (int i = 0; i < ListAttackEnemy.Count; i++)
             {
@@ -465,7 +507,7 @@ namespace SpaceShooter
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
                         MyPlayer.MyBullet[j].Location.X += 17;
                         MyPlayer.Mark++;
-                        if (MyPlayer.Mark == 30)
+                        if (MyPlayer.Mark == 2)
                         {
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
@@ -485,10 +527,34 @@ namespace SpaceShooter
                     }
                 }
             }
-            if (ListAttackEnemy.Count == 0)
+            if (MyPlayer.Level < 3 )
             {
-                KhoiTaoAttackEnemy();
-            }          
+                if (ListAttackEnemy.Count == 0)
+                {
+                    KhoiTaoAttackEnemy();
+                }
+            }
+            else
+            {                
+                ListAttackEnemy.Clear();
+            }
+            if (BossShow == false)
+            {
+                if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
+                {
+                    BossShow = true;
+                    MyBoss = new Boss();
+                    MyBoss.Location = new PointF(50, -400);
+                    MyBoss.Health = 30;
+                    MyBoss.BossBullet = new List<Bullet>();
+                    Enemy_Timer.Stop();
+                    EnemyBullet_Timer.Stop();
+                    AttackEnemy_Timer.Stop();
+                    AttackEnemyBullet_Timer.Stop();
+                    HuongBoss = 1;
+                    Boss_Timer.Start();
+                }
+            }
         }
         public void GameOver()
         {
@@ -576,24 +642,27 @@ namespace SpaceShooter
                 {
                     if (ListAttackEnemy[i].EnemyType == 1)
                     {
-                        gp.DrawImage(Properties.Resources.ufo, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
+                        gp.DrawImage(Properties.Resources.UFO, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
                     }
                     else
                     {
-                        gp.DrawImage(Properties.Resources.ufo, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
+                        gp.DrawImage(Properties.Resources.UFO2, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
                     }
                     for (int j = 0; j < ListAttackEnemy[i].EnemyBullet.Count; j++)
                     {
-                        gp.DrawImage(Properties.Resources.Munition, ListAttackEnemy[i].EnemyBullet[j].Location);
+                        gp.DrawImage(Properties.Resources.BossCircleBullet, ListAttackEnemy[i].EnemyBullet[j].Location);
                     }
                 }
                 gp.DrawImage(Properties.Resources.Rock, MyRock.Location);
+                if (MyBoss != null)
                 {
-                    gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
-                    for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
-                    {
-                        gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet[i].Location);
-                    }
+                   // gp.FillRectangle(new SolidBrush(Color.Yellow), MyBoss.Location.X+55, MyBoss.Location.Y, 50, 500);
+                    gp.DrawImage(Properties.Resources.Boss, MyBoss.Location);
+                }
+                gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
+                for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
+                {
+                    gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet[i].Location);
                 }
             }
             Main_PictureBox.Image = bitmap;
@@ -615,11 +684,11 @@ namespace SpaceShooter
             MarkLogo_Label.Show();
             Mark_Label.Show();
             Level_Label.Show();
-            LevelLogo_Label.Show();
-            Star_Timer.Start();
+            LevelLogo_Label.Show();           
             IsStart = true;
             Pause = false;
             Cursor.Hide();
+            Star_Timer.Start();
             Enemy_Timer.Start();
             Rock_Timer.Start();
             Bullet_Timer.Start();
@@ -670,6 +739,12 @@ namespace SpaceShooter
             public float c;
             public float DeltaX;
         }
+        public class Boss
+        {
+            public PointF Location;
+            public int Health;
+            public List<Bullet> BossBullet;
+        }
         public class Player
         {
             public PointF Location;
@@ -693,6 +768,6 @@ namespace SpaceShooter
             public float a;
             public float b;
             public float DeltaX;
-        }
+        } 
     }
 }

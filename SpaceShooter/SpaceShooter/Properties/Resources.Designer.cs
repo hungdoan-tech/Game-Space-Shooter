@@ -73,6 +73,26 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Boss {
+            get {
+                object obj = ResourceManager.GetObject("Boss", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BossCircleBullet {
+            get {
+                object obj = ResourceManager.GetObject("BossCircleBullet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Brand1 {
             get {
                 object obj = ResourceManager.GetObject("Brand1", resourceCulture);
@@ -213,9 +233,19 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ufo {
+        public static System.Drawing.Bitmap UFO {
             get {
-                object obj = ResourceManager.GetObject("ufo", resourceCulture);
+                object obj = ResourceManager.GetObject("UFO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap UFO2 {
+            get {
+                object obj = ResourceManager.GetObject("UFO2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -171,5 +171,23 @@
   <ItemGroup>
     <None Include="Resources\ufo6.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Boss2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spaceship-png-icon-8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Boss4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ufo8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UFO2 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BossCircleBullet.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,7 +25,7 @@ namespace SpaceShooter
         bool IsStart = false;
         bool BossShow = false;
         int HuongBoss;
-        bool Pause = false;
+        int Status = 0;
         public Form1()
         {
             InitializeComponent();
@@ -191,13 +191,28 @@ namespace SpaceShooter
                 {
                     if (ListAttackEnemy[i].Location.Y > 0)
                     {
-                        if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
+                        if (ListAttackEnemy[i].EnemyType == 1)
                         {
-                            MyPlayer.Health--;
-                            if (MyPlayer.Health == 0)
+                            if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
                             {
-                                GameOver();
-                                return;
+                                MyPlayer.Health--;
+                                if (MyPlayer.Health == 0)
+                                {
+                                    GameOver();
+                                    return;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 61 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].Location.X && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 50 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y)
+                            {
+                                MyPlayer.Health--;
+                                if (MyPlayer.Health == 0)
+                                {
+                                    GameOver();
+                                    return;
+                                }
                             }
                         }
                     }
@@ -545,24 +560,6 @@ namespace SpaceShooter
                         ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
                         ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 50;
                     }
-                    //if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
-                    //{
-                    //    ListAttackEnemy[i].EnemyBullet[j].Times = 0;
-                    //    Bullet NewBullet = new Bullet();
-                    //    NewBullet.Location = ListAttackEnemy[i].Location;
-                    //    NewBullet.Location.X += 15;
-                    //    if (MyPlayer.Location.Y - NewBullet.Location.Y == 0)
-                    //    {
-                    //        NewBullet.Location.Y += 2;
-                    //    }
-                    //    if (MyPlayer.Location.X - NewBullet.Location.X == 0)
-                    //    {
-                    //        NewBullet.Location.X += 2;
-                    //    }
-                    //    NewBullet.a = (MyPlayer.Location.Y - NewBullet.Location.Y) / (MyPlayer.Location.X - NewBullet.Location.X);
-                    //    NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-                    //    NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
-                    //}
                 }
             }
         }
@@ -771,7 +768,7 @@ namespace SpaceShooter
                         MyBoss.Health--;
                         if (MyBoss.Health==0)
                         {
-                            GameOver();
+                            GameWin();
                             return;
                         }
                     }
@@ -865,27 +862,6 @@ namespace SpaceShooter
             NewBullet.Times = 0;
             NewBullet.TotalTime = 0;
             MyBoss.BossBulletType2.Add(NewBullet);
-
-
-            //NewBullet = new Bullet();
-            //NewBullet.Location = MyBoss.Location;
-            //NewBullet.Location.X += 50;
-            //A = NewBullet.Location;
-            //B = MyPlayer.Location;
-            //if (A.Y - B.Y == 0)
-            //{
-            //    A.Y += 3;
-            //}
-            //if (A.X - B.X == 0)
-            //{
-            //    A.X += 3;
-            //}
-            //NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
-            //NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-            //NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 30;
-            //NewBullet.Times = 0;
-            //NewBullet.TotalTime = 0;
-            //MyBoss.BossBulletType2.Add(NewBullet);
         }
         public void GameOver()
         {
@@ -906,7 +882,33 @@ namespace SpaceShooter
            
             Start_Button.Text=("Play Again");
             IsStart = false;
-            Pause = true;
+            Status = 1;
+            BossShow = false;
+            KhoiTao();
+            Mark_Label.Text = MyPlayer.Mark.ToString();
+            Level_Label.Text = MyPlayer.Level.ToString();
+            Cursor.Show();
+        }
+        public void GameWin()
+        {
+            BossBullet_Timer.Stop();
+            Boss_Timer.Stop();
+            Enemy_Timer.Stop();
+            Rock_Timer.Stop();
+            Bullet_Timer.Stop();
+            AttackEnemy_Timer.Stop();
+            EnemyBullet_Timer.Stop();
+            AttackEnemyBullet_Timer.Stop();
+            Start_Button.Show();
+            Exit_Button.Show();
+            MarkLogo_Label.Hide();
+            Mark_Label.Hide();
+            Level_Label.Hide();
+            LevelLogo_Label.Hide();
+
+            Start_Button.Text = ("Play Again");
+            IsStart = false;
+            Status = 1;
             BossShow = false;
             KhoiTao();
             Mark_Label.Text = MyPlayer.Mark.ToString();
@@ -939,13 +941,23 @@ namespace SpaceShooter
             }
             if (IsStart == false)
             {
-                if (Pause != true)
+                if (Status == 0)
                 {
                     gp.DrawImage(Properties.Resources.Brand1, new PointF(80, 120));
                 }
                 else
                 {
-                    gp.DrawImage(Properties.Resources.game_over, new PointF(110, 70));
+                    if (Status == 1)
+                    {
+                        gp.DrawImage(Properties.Resources.game_over, new PointF(110, 70));
+                    }
+                    else
+                    {
+                        if (Status == 2)
+                        {
+                            gp.DrawString("You Win", new Font("Gill Sans", 80, FontStyle.Bold), new SolidBrush(Color.Red), new Point(30, 110));
+                        }
+                    }
                 }
             }
             else
@@ -1053,7 +1065,7 @@ namespace SpaceShooter
             Level_Label.Show();
             LevelLogo_Label.Show();           
             IsStart = true;
-            Pause = false;
+            Status = 0;
             Cursor.Hide();
             MyBoss = null;
             Star_Timer.Start();
@@ -1063,6 +1075,11 @@ namespace SpaceShooter
             AttackEnemy_Timer.Start();
             EnemyBullet_Timer.Start();
             AttackEnemyBullet_Timer.Start();
+            if (BossShow == true)
+            {
+                Boss_Timer.Start();
+                BossBullet_Timer.Start();
+            }
         }
         private void Exit_Button_Click(object sender, EventArgs e)
         {
@@ -1084,6 +1101,8 @@ namespace SpaceShooter
                 Rock_Timer.Stop();
                 Star_Timer.Stop();
                 AttackEnemy_Timer.Stop();
+                Boss_Timer.Stop();
+                BossBullet_Timer.Stop();
             }
         }  
         public class Star

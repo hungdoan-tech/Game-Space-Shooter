@@ -44,6 +44,7 @@
             this.EnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
             this.AttackEnemyBullet_Timer = new System.Windows.Forms.Timer(this.components);
             this.Boss_Timer = new System.Windows.Forms.Timer(this.components);
+            this.BossBullet_Timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -174,6 +175,11 @@
             this.Boss_Timer.Interval = 40;
             this.Boss_Timer.Tick += new System.EventHandler(this.Boss_Timer_Tick);
             // 
+            // BossBullet_Timer
+            // 
+            this.BossBullet_Timer.Interval = 20;
+            this.BossBullet_Timer.Tick += new System.EventHandler(this.BossBullet_Timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,6 +223,7 @@
         private System.Windows.Forms.Timer EnemyBullet_Timer;
         private System.Windows.Forms.Timer AttackEnemyBullet_Timer;
         private System.Windows.Forms.Timer Boss_Timer;
+        private System.Windows.Forms.Timer BossBullet_Timer;
     }
 }
 

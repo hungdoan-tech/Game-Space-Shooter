@@ -175,7 +175,10 @@ namespace SpaceShooter
             }
             if (ListAttackEnemy.Count == 0)
             {
-                KhoiTaoAttackEnemy();
+                if (MyPlayer.Level < 3)
+                {
+                    KhoiTaoAttackEnemy();
+                }
             }
             else
             {
@@ -189,6 +192,27 @@ namespace SpaceShooter
                             return;
                         }
                     }
+                }
+            }
+            if (BossShow == false)
+            {
+                if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
+                {
+                    BossShow = true;
+                    MyBoss = new Boss();
+                    MyBoss.Location = new PointF(50, -400);
+                    MyBoss.Health = 30;
+                    MyBoss.BossBulletType1 = new List<Bullet>();
+                    MyBoss.BossBulletType2 = new List<Bullet>();
+                    Enemy_Timer.Stop();
+                    EnemyBullet_Timer.Stop();
+                    AttackEnemy_Timer.Stop();
+                    AttackEnemyBullet_Timer.Stop();
+                    HuongBoss = 1;
+                    InitalizeBossBulletType1();
+                    InitalizeBossBulletType2();
+                    Boss_Timer.Start();
+                    BossBullet_Timer.Start();
                 }
             }
         }
@@ -225,7 +249,31 @@ namespace SpaceShooter
             }
             else
             {
-                 KhoiTaoEnemy();
+                if (MyPlayer.Level < 3)
+                {
+                    KhoiTaoEnemy();
+                }
+            }
+            if (BossShow == false)
+            {
+                if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
+                {
+                    BossShow = true;
+                    MyBoss = new Boss();
+                    MyBoss.Location = new PointF(50, -400);
+                    MyBoss.Health = 30;
+                    MyBoss.BossBulletType1 = new List<Bullet>();
+                    MyBoss.BossBulletType2 = new List<Bullet>();
+                    Enemy_Timer.Stop();
+                    EnemyBullet_Timer.Stop();
+                    AttackEnemy_Timer.Stop();
+                    AttackEnemyBullet_Timer.Stop();
+                    HuongBoss = 1;
+                    InitalizeBossBulletType1();
+                    InitalizeBossBulletType2();
+                    Boss_Timer.Start();
+                    BossBullet_Timer.Start();
+                }
             }
         }
         private void EnemyBullet_Timer_Tick(object sender, EventArgs e)
@@ -265,6 +313,7 @@ namespace SpaceShooter
         }
         private void Boss_Timer_Tick(object sender, EventArgs e)
         {
+            MyBoss.TotalTime++;
             if (MyBoss.Location.Y < 50)
             {
                 MyBoss.Location.Y += 2;
@@ -291,8 +340,72 @@ namespace SpaceShooter
                     HuongBoss = 1;
                 }
             }
+            if (MyBoss.TotalTime == 120)
+            {
+                if (MyBoss.FinalSkill == true)
+                {
+                    MyBoss.FinalSkill = false;
+                }
+                else
+                {
+                    MyBoss.FinalSkill = true;
+                }
+                MyBoss.TotalTime = 0;
+            }
         }
 
+        private void BossBullet_Timer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
+            {
+                MyBoss.BossBulletType1[i].Location.X += MyBoss.BossBulletType1[i].DeltaX;
+                MyBoss.BossBulletType1[i].Location.Y = (MyBoss.BossBulletType1[i].Location.X * MyBoss.BossBulletType1[i].a) + MyBoss.BossBulletType1[i].b;
+            }
+            for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
+            {
+                if (MyBoss.BossBulletType1[i].Location.Y > 650)
+                {
+                    MyBoss.BossBulletType1.Remove(MyBoss.BossBulletType1[i]);
+                }
+            }
+            if (MyBoss.BossBulletType1.Count == 0)
+            {
+                InitalizeBossBulletType1();
+            }
+            for (int i = 0; i < MyBoss.BossBulletType2.Count; i++)
+            {
+                MyBoss.BossBulletType2[i].Location.X += MyBoss.BossBulletType2[i].DeltaX;
+                MyBoss.BossBulletType2[i].Location.Y = (MyBoss.BossBulletType2[i].Location.X * MyBoss.BossBulletType2[i].a) + MyBoss.BossBulletType2[i].b;
+                MyBoss.BossBulletType2[i].Times++;
+                MyBoss.BossBulletType2[i].TotalTime++;
+                if (MyBoss.BossBulletType2[i].Times == 10)
+                {
+                    MyBoss.BossBulletType2[i].Times = 0;
+                    if (MyPlayer.Location.Y - MyBoss.BossBulletType2[i].Location.Y == 0)
+                    {
+                        MyBoss.BossBulletType2[i].Location.Y += 2;
+                    }
+                    if (MyPlayer.Location.X - MyBoss.BossBulletType2[i].Location.X == 0)
+                    {
+                        MyBoss.BossBulletType2[i].Location.X += 2;
+                    }
+                    MyBoss.BossBulletType2[i].a = (MyPlayer.Location.Y + 35 - MyBoss.BossBulletType2[i].Location.Y) / (MyPlayer.Location.X + 15 - MyBoss.BossBulletType2[i].Location.X);
+                    MyBoss.BossBulletType2[i].b = MyBoss.BossBulletType2[i].Location.Y - (MyBoss.BossBulletType2[i].a * MyBoss.BossBulletType2[i].Location.X);
+                    MyBoss.BossBulletType2[i].DeltaX = (MyPlayer.Location.X + 15 - MyBoss.BossBulletType2[i].Location.X) / 30;
+                }
+            }
+            for (int i = 0; i < MyBoss.BossBulletType2.Count; i++)
+            {
+                if (MyBoss.BossBulletType2[i].TotalTime == 200)
+                {
+                    MyBoss.BossBulletType2.RemoveAt(i);
+                }
+            }
+            if (MyBoss.BossBulletType2.Count == 0)
+            {
+                InitalizeBossBulletType2();
+            }
+        }
         private void KhoiTaoAttackEnemy()
         {
             for (int i = 0; i < MyPlayer.Level; i++)
@@ -471,13 +584,16 @@ namespace SpaceShooter
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
 
-                            Enemy TempEnemy = new Enemy();
-                            InitalizeEnemy(ref TempEnemy);
-                            ListEnemy.Add(TempEnemy);
+                            if (MyPlayer.Level < 3)
+                            {
+                                Enemy TempEnemy = new Enemy();
+                                InitalizeEnemy(ref TempEnemy);
+                                ListEnemy.Add(TempEnemy);
 
-                            AttackEnemy TempAttackEnemy = new AttackEnemy();
-                            InitalizeAttackEnemy(ref TempAttackEnemy);
-                            ListAttackEnemy.Add(TempAttackEnemy);
+                                AttackEnemy TempAttackEnemy = new AttackEnemy();
+                                InitalizeAttackEnemy(ref TempAttackEnemy);
+                                ListAttackEnemy.Add(TempAttackEnemy);
+                            }
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
@@ -492,10 +608,6 @@ namespace SpaceShooter
                 {
                     KhoiTaoEnemy();
                 }
-            }
-            else
-            {
-                ListEnemy.Clear();
             }
             for (int i = 0; i < ListAttackEnemy.Count; i++)
             {
@@ -512,13 +624,16 @@ namespace SpaceShooter
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
 
-                            Enemy TempEnemy = new Enemy();
-                            InitalizeEnemy(ref TempEnemy);
-                            ListEnemy.Add(TempEnemy);
+                            if (MyPlayer.Level < 3)
+                            {
+                                Enemy TempEnemy = new Enemy();
+                                InitalizeEnemy(ref TempEnemy);
+                                ListEnemy.Add(TempEnemy);
 
-                            AttackEnemy TempAttackEnemy = new AttackEnemy();
-                            InitalizeAttackEnemy(ref TempAttackEnemy);
-                            ListAttackEnemy.Add(TempAttackEnemy);
+                                AttackEnemy TempAttackEnemy = new AttackEnemy();
+                                InitalizeAttackEnemy(ref TempAttackEnemy);
+                                ListAttackEnemy.Add(TempAttackEnemy);
+                            }
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
@@ -534,10 +649,6 @@ namespace SpaceShooter
                     KhoiTaoAttackEnemy();
                 }
             }
-            else
-            {                
-                ListAttackEnemy.Clear();
-            }
             if (BossShow == false)
             {
                 if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
@@ -546,18 +657,134 @@ namespace SpaceShooter
                     MyBoss = new Boss();
                     MyBoss.Location = new PointF(50, -400);
                     MyBoss.Health = 30;
-                    MyBoss.BossBullet = new List<Bullet>();
+                    MyBoss.TotalTime = 0;
+                    MyBoss.BossBulletType1 = new List<Bullet>();
+                    MyBoss.BossBulletType2 = new List<Bullet>();
                     Enemy_Timer.Stop();
                     EnemyBullet_Timer.Stop();
                     AttackEnemy_Timer.Stop();
                     AttackEnemyBullet_Timer.Stop();
                     HuongBoss = 1;
+                    InitalizeBossBulletType1();
+                    InitalizeBossBulletType2();
                     Boss_Timer.Start();
+                    BossBullet_Timer.Start();
                 }
             }
         }
+        public void InitalizeBossBulletType1()
+        {
+            Bullet NewBullet;
+            PointF A;
+            PointF B;
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 1;
+            A = new PointF(MyBoss.Location.X + rd.Next(350,500), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X + rd.Next(-250,-150), 700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 2;
+            A = new PointF(MyBoss.Location.X +rd.Next(-250,-150), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X + rd.Next(350,550), 700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 3;
+            A = new PointF(MyBoss.Location.X + rd.Next(115,150), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X+ rd.Next(105,140),700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+        }
+        public void InitalizeBossBulletType2()
+        {
+            Bullet NewBullet;
+            PointF A;
+            PointF B;
+
+            NewBullet = new Bullet();
+            NewBullet.Location = MyBoss.Location;
+            NewBullet.Location.X += 100;
+            A = NewBullet.Location;
+            B = MyPlayer.Location;
+            if (A.Y - B.Y == 0)
+            {
+                A.Y+=3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 30;
+            NewBullet.Times = 0;
+            NewBullet.TotalTime = 0;
+            MyBoss.BossBulletType2.Add(NewBullet);
+
+
+            //NewBullet = new Bullet();
+            //NewBullet.Location = MyBoss.Location;
+            //NewBullet.Location.X += 50;
+            //A = NewBullet.Location;
+            //B = MyPlayer.Location;
+            //if (A.Y - B.Y == 0)
+            //{
+            //    A.Y += 3;
+            //}
+            //if (A.X - B.X == 0)
+            //{
+            //    A.X += 3;
+            //}
+            //NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            //NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            //NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 30;
+            //NewBullet.Times = 0;
+            //NewBullet.TotalTime = 0;
+            //MyBoss.BossBulletType2.Add(NewBullet);
+        }
         public void GameOver()
         {
+            BossBullet_Timer.Stop();
+            Boss_Timer.Stop();
             Enemy_Timer.Stop();
             Rock_Timer.Stop();
             Bullet_Timer.Stop();
@@ -574,6 +801,7 @@ namespace SpaceShooter
             Start_Button.Text=("Play Again");
             IsStart = false;
             Pause = true;
+            BossShow = false;
             KhoiTao();
             Mark_Label.Text = MyPlayer.Mark.ToString();
             Level_Label.Text = MyPlayer.Level.ToString();
@@ -650,13 +878,35 @@ namespace SpaceShooter
                     }
                     for (int j = 0; j < ListAttackEnemy[i].EnemyBullet.Count; j++)
                     {
-                        gp.DrawImage(Properties.Resources.BossCircleBullet, ListAttackEnemy[i].EnemyBullet[j].Location);
+                        gp.DrawImage(Properties.Resources.Munition, ListAttackEnemy[i].EnemyBullet[j].Location);
                     }
                 }
                 gp.DrawImage(Properties.Resources.Rock, MyRock.Location);
                 if (MyBoss != null)
                 {
-                   // gp.FillRectangle(new SolidBrush(Color.Yellow), MyBoss.Location.X+55, MyBoss.Location.Y, 50, 500);
+                    if (MyBoss.FinalSkill == true)
+                    {
+                        gp.FillRectangle(new SolidBrush(Color.LightYellow), MyBoss.Location.X + 135, MyBoss.Location.Y + 50, 150, 800);
+                    }
+                    for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
+                    {
+                        if (MyBoss.BossBulletType1[i].TypeBullet == 1)
+                        {
+                            gp.DrawImage(Properties.Resources.BossBullet2, MyBoss.BossBulletType1[i].Location);
+                        }
+                        if (MyBoss.BossBulletType1[i].TypeBullet == 2)
+                        {
+                            gp.DrawImage(Properties.Resources.BossBullet1, MyBoss.BossBulletType1[i].Location);
+                        }
+                        if (MyBoss.BossBulletType1[i].TypeBullet == 3)
+                        {
+                            gp.DrawImage(Properties.Resources.BossBullet3_1, MyBoss.BossBulletType1[i].Location);
+                        }
+                    }
+                    for (int i = 0; i < MyBoss.BossBulletType2.Count; i++)
+                    {
+                        gp.DrawImage(Properties.Resources.BossCircleBullet, MyBoss.BossBulletType2[i].Location);
+                    }
                     gp.DrawImage(Properties.Resources.Boss, MyBoss.Location);
                 }
                 gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
@@ -688,6 +938,7 @@ namespace SpaceShooter
             IsStart = true;
             Pause = false;
             Cursor.Hide();
+            MyBoss = null;
             Star_Timer.Start();
             Enemy_Timer.Start();
             Rock_Timer.Start();
@@ -743,7 +994,10 @@ namespace SpaceShooter
         {
             public PointF Location;
             public int Health;
-            public List<Bullet> BossBullet;
+            public List<Bullet> BossBulletType1;
+            public List<Bullet> BossBulletType2;
+            public bool FinalSkill;
+            public int TotalTime;
         }
         public class Player
         {
@@ -759,6 +1013,7 @@ namespace SpaceShooter
             public float a;
             public float b;
             public float Times;
+            public int TotalTime;
             public float DeltaX;
         }
         public class Rock
@@ -768,6 +1023,6 @@ namespace SpaceShooter
             public float a;
             public float b;
             public float DeltaX;
-        } 
+        }
     }
 }

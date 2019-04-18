@@ -145,7 +145,7 @@
     <value>974, 23</value>
   </metadata>
   <metadata name="LostBullet_Timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1122, 27</value>
+    <value>1122, 17</value>
   </metadata>
   <metadata name="Item_Timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1266, 22</value>

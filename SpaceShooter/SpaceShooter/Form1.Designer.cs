@@ -46,6 +46,7 @@
             this.Boss_Timer = new System.Windows.Forms.Timer(this.components);
             this.BossBullet_Timer = new System.Windows.Forms.Timer(this.components);
             this.LostBullet_Timer = new System.Windows.Forms.Timer(this.components);
+            this.Item_Timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Main_PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -186,6 +187,11 @@
             this.LostBullet_Timer.Interval = 20;
             this.LostBullet_Timer.Tick += new System.EventHandler(this.LostBullet_Timer_Tick);
             // 
+            // Item_Timer
+            // 
+            this.Item_Timer.Interval = 20;
+            this.Item_Timer.Tick += new System.EventHandler(this.Item_Timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -231,6 +237,7 @@
         private System.Windows.Forms.Timer Boss_Timer;
         private System.Windows.Forms.Timer BossBullet_Timer;
         private System.Windows.Forms.Timer LostBullet_Timer;
+        private System.Windows.Forms.Timer Item_Timer;
     }
 }
 

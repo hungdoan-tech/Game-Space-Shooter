@@ -25,6 +25,7 @@ namespace SpaceShooter
         Player MyPlayer;
         Rock MyRock;
         Boss MyBoss;
+        Item MyItem;
         bool IsStart = false;
         bool BossShow = false;
         int HuongBoss;
@@ -84,6 +85,8 @@ namespace SpaceShooter
             KhoiTaoAttackEnemy();
             ListTempAttackEnemyBullet = new List<Bullet>();
             ListTempEnemyBullet = new List<Bullet>();
+            MyItem = new Item();
+            MyItem.Times = 0;
         }
        
         private void StarTimer_Tick(object sender, EventArgs e)
@@ -176,13 +179,8 @@ namespace SpaceShooter
                 if (ListTempEnemyBullet[i].Location.Y > Main_PictureBox.Height)
                 {
                     ListTempEnemyBullet.RemoveAt(i);
-                    // i = 0;
                 }
             }
-            //for (int i = 0; i < ListTempEnemyBullet.Count; i++)
-            //{
-               
-            //}
             for (int i = 0; i < ListTempAttackEnemyBullet.Count; i++)
             {
                 ListTempAttackEnemyBullet[i].Location.X += ListTempAttackEnemyBullet[i].DeltaX;
@@ -216,13 +214,48 @@ namespace SpaceShooter
                 if (ListTempAttackEnemyBullet[i].TotalTime == 150)
                 {
                     ListTempAttackEnemyBullet.RemoveAt(i);
-                    // i = 0;
                 }
             }
-            //for (int i = 0; i < ListTempAttackEnemyBullet.Count; i++)
-            //{
-               
-            //}
+        }
+
+        private void Item_Timer_Tick(object sender, EventArgs e)
+        {
+            MyItem.Location.Y += MyPlayer.Level + 4;
+            if (MyItem.Location.Y > Main_PictureBox.Height+20)
+            {
+                MyItem.Times = 0;
+                Item_Timer.Stop();
+            }
+            if (MyItem.TypeItem == 1)
+            {
+                if (MyPlayer.Location.X <= MyItem.Location.X + 10 && MyPlayer.Location.X + 42 >= MyItem.Location.X && MyPlayer.Location.Y <= MyItem.Location.Y + 30 && MyPlayer.Location.Y + 38 >= MyItem.Location.Y)
+                {
+                    if (MyPlayer.MyBullet.Count <=2)
+                    {
+                        Bullet TempBullet = new Bullet();
+                        TempBullet.Location = MyPlayer.Location;
+                        TempBullet.Location.Y -= 80;
+                        TempBullet.Location.X += 17;
+                        MyPlayer.MyBullet.Add(TempBullet);
+                    }
+                    MyItem.Location.Y = -900;
+                    MyItem.Times = 0;
+                    Item_Timer.Stop();
+                }
+            }
+            else
+            {
+                if (MyItem.TypeItem == 0)
+                {
+                    if (MyPlayer.Location.X <= MyItem.Location.X + 20 && MyPlayer.Location.X + 42 >= MyItem.Location.X && MyPlayer.Location.Y <= MyItem.Location.Y + 20 && MyPlayer.Location.Y + 38 >= MyItem.Location.Y )
+                    {
+                        MyPlayer.Health = 10;
+                        MyItem.Location.Y = -900;
+                        MyItem.Times = 0;
+                        Item_Timer.Stop();
+                    }
+                }
+            }
         }
         private void AttackEnemy_Timer_Tick(object sender, EventArgs e)
         {
@@ -379,9 +412,24 @@ namespace SpaceShooter
                 MyPlayer.MyBullet[i].Location.Y -= 15;
                 if (MyPlayer.MyBullet[i].Location.Y < 0)
                 {
-                    MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                    MyPlayer.MyBullet[i].Location.X += 17;
-                    MyPlayer.MyBullet[i].Location.Y -= 20;
+                    if (i == 0)
+                    {
+                        MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                        MyPlayer.MyBullet[i].Location.X += 0;
+                        MyPlayer.MyBullet[i].Location.Y -= 10;
+                    }
+                    if (i == 1)
+                    {
+                        MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                        MyPlayer.MyBullet[i].Location.X += 17;
+                        MyPlayer.MyBullet[i].Location.Y -= 20;
+                    }
+                    if (i == 2)
+                    {
+                        MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                        MyPlayer.MyBullet[i].Location.X += 35;
+                        MyPlayer.MyBullet[i].Location.Y -= 10;
+                    }
                 }               
                 KiemTra();
             }
@@ -747,7 +795,6 @@ namespace SpaceShooter
             }
             return false;
         }
-
         public void KiemTra()
         {
             for (int i = 0; i < ListEnemy.Count; i++)
@@ -760,9 +807,17 @@ namespace SpaceShooter
                         {
                             ListTempEnemyBullet.Add(ListEnemy[i].EnemyBullet[h]);
                         }
+                        MyItem.Times++;
+                        if (MyItem.Times == 10)
+                        {
+                            MyItem.TypeItem = rd.Next(0, 2);
+                            MyItem.Location = ListAttackEnemy[i].Location;
+                            Item_Timer.Start();
+                        }
                         ListEnemy.RemoveAt(i);
                         MyPlayer.MyBullet[j].Location = MyPlayer.Location;
                         MyPlayer.MyBullet[j].Location.X += 17;
+                        MyItem.Times++;
                         MyPlayer.Mark++;
                         if (MyPlayer.Mark == 20)
                         {
@@ -782,7 +837,8 @@ namespace SpaceShooter
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
-                        i = ListEnemy.Count + 1;
+                        i = ListEnemy.Count + 10;
+                        break;
                     }
                 }                             
             }
@@ -806,10 +862,18 @@ namespace SpaceShooter
                             {
                                 ListTempAttackEnemyBullet.Add(ListAttackEnemy[i].EnemyBullet[h]);
                             }
+                            MyItem.Times++;
+                            if (MyItem.Times == 10)
+                            {
+                                MyItem.TypeItem = 1;
+                                //MyItem.TypeItem = rd.Next(1, 2);
+                                MyItem.Location = ListAttackEnemy[i].Location;
+                                Item_Timer.Start();
+                            }
                             ListAttackEnemy.RemoveAt(i);
                             MyPlayer.MyBullet[j].Location = MyPlayer.Location;
                             MyPlayer.MyBullet[j].Location.X += 17;
-                            MyPlayer.Mark++;
+                            MyPlayer.Mark++;                          
                             if (MyPlayer.Mark == 20)
                             {
                                 MyPlayer.Mark = 0;
@@ -827,7 +891,8 @@ namespace SpaceShooter
                             }
                             Mark_Label.Text = MyPlayer.Mark.ToString();
                             Level_Label.Text = MyPlayer.Level.ToString();
-                            i = ListAttackEnemy.Count + 1;
+                            i = ListAttackEnemy.Count + 10;
+                            break;                           
                         }
                     }
                 }
@@ -1005,15 +1070,6 @@ namespace SpaceShooter
             Level_Label.Text = MyPlayer.Level.ToString();
             Cursor.Show();
         }
-        public void DeleteAll()
-        {
-            ListEnemy.Clear();
-            ListAttackEnemy.Clear();
-            MyPlayer = null;
-            MyRock = null;
-            MyBoss = null;
-        }
-        
         public void Draw()
         {
             gp.Clear(Color.White);
@@ -1135,6 +1191,20 @@ namespace SpaceShooter
                     gp.FillRectangle(new SolidBrush(Color.Red), MyBoss.Location.X+30 , MyBoss.Location.Y - 30, MyBoss.Health , 10);
                     gp.DrawRectangle(new Pen(Color.White), MyBoss.Location.X +30, MyBoss.Location.Y - 30, 350, 10);
                     gp.DrawImage(Properties.Resources.Boss, MyBoss.Location);
+                }
+                if(MyItem.Location.Y>0)
+                {
+                    if (MyItem.TypeItem == 1)
+                    {
+                        gp.DrawImage(Properties.Resources.Bullet_Item, MyItem.Location);
+                    }
+                    else
+                    {
+                        if (MyItem.TypeItem == 0)
+                        {
+                            gp.DrawImage(Properties.Resources.HeartItem, MyItem.Location);
+                        }
+                    }
                 }
                 gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
                 gp.FillRectangle(new SolidBrush(Color.Red), MyPlayer.Location.X+10, MyPlayer.Location.Y + 50, (22/10)*MyPlayer.Health, 3);
@@ -1263,6 +1333,12 @@ namespace SpaceShooter
             public float a;
             public float b;
             public float DeltaX;
+        }
+        public class Item
+        {
+            public PointF Location;
+            public int TypeItem;
+            public int Times;
         }
     }
 }

@@ -117,9 +117,6 @@
     <None Include="Resources\Rock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Brand1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="AxWMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -179,6 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\YouWin3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Brand3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Brand1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

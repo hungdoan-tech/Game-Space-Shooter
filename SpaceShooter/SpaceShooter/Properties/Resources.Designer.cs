@@ -123,9 +123,9 @@ namespace SpaceShooter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Brand1 {
+        public static System.Drawing.Bitmap Brand {
             get {
-                object obj = ResourceManager.GetObject("Brand1", resourceCulture);
+                object obj = ResourceManager.GetObject("Brand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

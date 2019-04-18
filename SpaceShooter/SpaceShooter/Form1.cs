@@ -55,6 +55,7 @@ namespace SpaceShooter
             MyPlayer = new Player();
             MyPlayer.Location.X = 230;
             MyPlayer.Location.Y = 530;
+            MyPlayer.Health = 10;
             MyPlayer.Mark = 0;
             MyPlayer.Level = 1;
 
@@ -117,8 +118,12 @@ namespace SpaceShooter
             }
             if (MyPlayer.Location.X <= MyRock.Location.X + 38 && MyPlayer.Location.X + 42 >= MyRock.Location.X+2 && MyPlayer.Location.Y <= MyRock.Location.Y+37 && MyPlayer.Location.Y +38 >= MyRock.Location.Y+6)
             {
-                GameOver();
-                return;
+                MyPlayer.Health--;
+                if (MyPlayer.Health == 0)
+                {
+                    GameOver();
+                    return;
+                }
             }
             if (MyRock.Location.Y > Main_PictureBox.Height+10)
             {
@@ -188,8 +193,12 @@ namespace SpaceShooter
                     {
                         if (MyPlayer.Location.X <= ListAttackEnemy[i].Location.X + 80 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].Location.X + 20 && MyPlayer.Location.Y <= ListAttackEnemy[i].Location.Y + 65 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].Location.Y + 23)
                         {
-                            GameOver();
-                            return;
+                            MyPlayer.Health--;
+                            if (MyPlayer.Health == 0)
+                            {
+                                GameOver();
+                                return;
+                            }
                         }
                     }
                 }
@@ -198,21 +207,7 @@ namespace SpaceShooter
             {
                 if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
                 {
-                    BossShow = true;
-                    MyBoss = new Boss();
-                    MyBoss.Location = new PointF(50, -400);
-                    MyBoss.Health = 30;
-                    MyBoss.BossBulletType1 = new List<Bullet>();
-                    MyBoss.BossBulletType2 = new List<Bullet>();
-                    Enemy_Timer.Stop();
-                    EnemyBullet_Timer.Stop();
-                    AttackEnemy_Timer.Stop();
-                    AttackEnemyBullet_Timer.Stop();
-                    HuongBoss = 1;
-                    InitalizeBossBulletType1();
-                    InitalizeBossBulletType2();
-                    Boss_Timer.Start();
-                    BossBullet_Timer.Start();
+                    KhoiTaoBoss();
                 }
             }
         }
@@ -241,8 +236,12 @@ namespace SpaceShooter
                     {
                         if (MyPlayer.Location.X <= ListEnemy[i].Location.X + 25 && MyPlayer.Location.X + 42 >= ListEnemy[i].Location.X + 5 && MyPlayer.Location.Y <= ListEnemy[i].Location.Y + 23 && MyPlayer.Location.Y + 38 >= ListEnemy[i].Location.Y + 3)
                         {
-                            GameOver();
-                            return;
+                            MyPlayer.Health--;
+                            if (MyPlayer.Health == 0)
+                            {
+                                GameOver();
+                                return;
+                            }
                         }
                     }
                 }
@@ -258,21 +257,7 @@ namespace SpaceShooter
             {
                 if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
                 {
-                    BossShow = true;
-                    MyBoss = new Boss();
-                    MyBoss.Location = new PointF(50, -400);
-                    MyBoss.Health = 30;
-                    MyBoss.BossBulletType1 = new List<Bullet>();
-                    MyBoss.BossBulletType2 = new List<Bullet>();
-                    Enemy_Timer.Stop();
-                    EnemyBullet_Timer.Stop();
-                    AttackEnemy_Timer.Stop();
-                    AttackEnemyBullet_Timer.Stop();
-                    HuongBoss = 1;
-                    InitalizeBossBulletType1();
-                    InitalizeBossBulletType2();
-                    Boss_Timer.Start();
-                    BossBullet_Timer.Start();
+                    KhoiTaoBoss();
                 }
             }
         }
@@ -282,7 +267,7 @@ namespace SpaceShooter
             {
                 for (int j = 0; j < ListEnemy[i].EnemyBullet.Count; j++)
                 {
-                    ListEnemy[i].EnemyBullet[j].Location.Y += 5;
+                    ListEnemy[i].EnemyBullet[j].Location.Y += MyPlayer.Level+4;
                     if (ListEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
                     {
                         ListEnemy[i].EnemyBullet[j].Location = ListEnemy[i].Location;
@@ -290,8 +275,12 @@ namespace SpaceShooter
                     }
                     if (MyPlayer.Location.X <= ListEnemy[i].EnemyBullet[j].Location.X + 3 && MyPlayer.Location.X + 42 >= ListEnemy[i].EnemyBullet[j].Location.X && MyPlayer.Location.Y <= ListEnemy[i].EnemyBullet[j].Location.Y + 20 && MyPlayer.Location.Y + 38 >= ListEnemy[i].EnemyBullet[j].Location.Y)
                     {
-                        GameOver();
-                        return;
+                        MyPlayer.Health--;
+                        if (MyPlayer.Health == 0)
+                        {
+                            GameOver();
+                            return;
+                        }
                     }
                 }
             }
@@ -307,7 +296,7 @@ namespace SpaceShooter
                     MyPlayer.MyBullet[i].Location = MyPlayer.Location;
                     MyPlayer.MyBullet[i].Location.X += 17;
                     MyPlayer.MyBullet[i].Location.Y -= 20;
-                }
+                }               
                 KiemTra();
             }
         }
@@ -338,6 +327,27 @@ namespace SpaceShooter
                 if (MyBoss.Location.X < -50)
                 {
                     HuongBoss = 1;
+                }               
+            }
+            if (MyPlayer.Location.X <= MyBoss.Location.X + 500 && MyPlayer.Location.X + 42 >= MyBoss.Location.X + 2 && MyPlayer.Location.Y <= MyBoss.Location.Y + 200 && MyPlayer.Location.Y + 38 >= MyBoss.Location.Y + 2)
+            {
+                MyPlayer.Health--;
+                if (MyPlayer.Health == 0)
+                {
+                    GameOver();
+                    return;
+                }
+            }
+            if (MyBoss.FinalSkill == true)
+            {
+                if (MyPlayer.Location.X <= MyBoss.Location.X + 285 && MyPlayer.Location.X + 42 >= MyBoss.Location.X + 135 )
+                {
+                    MyPlayer.Health--;
+                    if (MyPlayer.Health == 0)
+                    {
+                        GameOver();
+                        return;
+                    }
                 }
             }
             if (MyBoss.TotalTime == 120)
@@ -360,6 +370,48 @@ namespace SpaceShooter
             {
                 MyBoss.BossBulletType1[i].Location.X += MyBoss.BossBulletType1[i].DeltaX;
                 MyBoss.BossBulletType1[i].Location.Y = (MyBoss.BossBulletType1[i].Location.X * MyBoss.BossBulletType1[i].a) + MyBoss.BossBulletType1[i].b;
+                if (MyBoss.BossBulletType1[i].TypeBullet == 3)
+                {
+                    if (MyPlayer.Location.X <= MyBoss.BossBulletType1[i].Location.X + 15 && MyPlayer.Location.X + 42 >= MyBoss.BossBulletType1[i].Location.X + 1 && MyPlayer.Location.Y <= MyBoss.BossBulletType1[i].Location.Y + 49 && MyPlayer.Location.Y + 38 >= MyBoss.BossBulletType1[i].Location.Y + 2)
+                    {
+                        MyPlayer.Health--;
+                        if (MyPlayer.Health == 0)
+                        {
+                            GameOver();
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (MyBoss.BossBulletType1[i].TypeBullet == 2)
+                    {
+                        if (MyPlayer.Location.X <= MyBoss.BossBulletType1[i].Location.X + 40 && MyPlayer.Location.X + 42 >= MyBoss.BossBulletType1[i].Location.X + 17 && MyPlayer.Location.Y <= MyBoss.BossBulletType1[i].Location.Y + 48 && MyPlayer.Location.Y + 38 >= MyBoss.BossBulletType1[i].Location.Y + 20)
+                        {
+                            MyPlayer.Health--;
+                            if (MyPlayer.Health == 0)
+                            {
+                                GameOver();
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MyBoss.BossBulletType1[i].TypeBullet == 1)
+                        {
+                            if (MyPlayer.Location.X <= MyBoss.BossBulletType1[i].Location.X + 23 && MyPlayer.Location.X + 42 >= MyBoss.BossBulletType1[i].Location.X && MyPlayer.Location.Y <= MyBoss.BossBulletType1[i].Location.Y + 48 && MyPlayer.Location.Y + 38 >= MyBoss.BossBulletType1[i].Location.Y + 20)
+                            {
+                                MyPlayer.Health--;
+                                if (MyPlayer.Health == 0)
+                                {
+                                    GameOver();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
             {
@@ -393,6 +445,15 @@ namespace SpaceShooter
                     MyBoss.BossBulletType2[i].b = MyBoss.BossBulletType2[i].Location.Y - (MyBoss.BossBulletType2[i].a * MyBoss.BossBulletType2[i].Location.X);
                     MyBoss.BossBulletType2[i].DeltaX = (MyPlayer.Location.X + 15 - MyBoss.BossBulletType2[i].Location.X) / 30;
                 }
+                if (MyPlayer.Location.X <= MyBoss.BossBulletType2[i].Location.X + 20 && MyPlayer.Location.X + 42 >= MyBoss.BossBulletType2[i].Location.X && MyPlayer.Location.Y <= MyBoss.BossBulletType2[i].Location.Y + 20 && MyPlayer.Location.Y + 38 >= MyBoss.BossBulletType2[i].Location.Y)
+                {
+                    MyPlayer.Health--;
+                    if (MyPlayer.Health == 0)
+                    {
+                        GameOver();
+                        return;
+                    }
+                }
             }
             for (int i = 0; i < MyBoss.BossBulletType2.Count; i++)
             {
@@ -405,6 +466,7 @@ namespace SpaceShooter
             {
                 InitalizeBossBulletType2();
             }
+            
         }
         private void KhoiTaoAttackEnemy()
         {
@@ -426,6 +488,7 @@ namespace SpaceShooter
                     NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
                     NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
                     NewBullet.Times = 0;
+                    NewBullet.TotalTime=0;
                     ListAttackEnemy[i].EnemyBullet.Add(NewBullet);
                 }
             }
@@ -439,6 +502,7 @@ namespace SpaceShooter
                     ListAttackEnemy[i].EnemyBullet[j].Location.X += ListAttackEnemy[i].EnemyBullet[j].DeltaX;
                     ListAttackEnemy[i].EnemyBullet[j].Location.Y = (ListAttackEnemy[i].EnemyBullet[j].Location.X * ListAttackEnemy[i].EnemyBullet[j].a) + ListAttackEnemy[i].EnemyBullet[j].b;
                     ListAttackEnemy[i].EnemyBullet[j].Times++;
+                    ListAttackEnemy[i].EnemyBullet[j].TotalTime++;
                     if (ListAttackEnemy[i].EnemyBullet[j].Times == 10)
                     {
                         ListAttackEnemy[i].EnemyBullet[j].Times = 0;
@@ -454,13 +518,33 @@ namespace SpaceShooter
                         ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
                         ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X + 15 - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 30;
                     }
-
-                    //if (MyPlayer.Location.X <= ListAttackEnemy[i].EnemyBullet[j].Location.X + 12 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].EnemyBullet[j].Location.X + 7 && MyPlayer.Location.Y <= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 12 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 7)
-                    //{
-                    //    GameOver();
-                    //    return;
-                    //}
-
+                    if (MyPlayer.Location.X <= ListAttackEnemy[i].EnemyBullet[j].Location.X + 12 && MyPlayer.Location.X + 42 >= ListAttackEnemy[i].EnemyBullet[j].Location.X + 7 && MyPlayer.Location.Y <= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 12 && MyPlayer.Location.Y + 38 >= ListAttackEnemy[i].EnemyBullet[j].Location.Y + 7)
+                    {
+                        MyPlayer.Health--;
+                        if (MyPlayer.Health == 0)
+                        {
+                            GameOver();
+                            return;
+                        }
+                    }
+                    if (ListAttackEnemy[i].EnemyBullet[j].TotalTime == 150)
+                    {
+                        ListAttackEnemy[i].EnemyBullet[j].Location = ListAttackEnemy[i].Location;
+                        ListAttackEnemy[i].EnemyBullet[j].Location.X += 15;
+                        ListAttackEnemy[i].EnemyBullet[j].Times = 0;
+                        ListAttackEnemy[i].EnemyBullet[j].TotalTime = 0;
+                        if (MyPlayer.Location.Y - ListAttackEnemy[i].EnemyBullet[j].Location.Y == 0)
+                        {
+                            ListAttackEnemy[i].EnemyBullet[j].Location.Y += 2;
+                        }
+                        if (MyPlayer.Location.X - ListAttackEnemy[i].EnemyBullet[j].Location.X == 0)
+                        {
+                            ListAttackEnemy[i].EnemyBullet[j].Location.X += 2;
+                        }
+                        ListAttackEnemy[i].EnemyBullet[j].a = (MyPlayer.Location.Y - ListAttackEnemy[i].EnemyBullet[j].Location.Y) / (MyPlayer.Location.X - ListAttackEnemy[i].EnemyBullet[j].Location.X);
+                        ListAttackEnemy[i].EnemyBullet[j].b = ListAttackEnemy[i].EnemyBullet[j].Location.Y - (ListAttackEnemy[i].EnemyBullet[j].a * ListAttackEnemy[i].EnemyBullet[j].Location.X);
+                        ListAttackEnemy[i].EnemyBullet[j].DeltaX = (MyPlayer.Location.X - ListAttackEnemy[i].EnemyBullet[j].Location.X) / 50;
+                    }
                     //if (/*ListAttackEnemy[i].EnemyBullet[j].Location.X < 0 || ListAttackEnemy[i].EnemyBullet[j].Location.X > Main_PictureBox.Width || ListAttackEnemy[i].EnemyBullet[j].Location.Y < 0 ||*/ ListAttackEnemy[i].EnemyBullet[j].Location.Y > Main_PictureBox.Height)
                     //{
                     //    ListAttackEnemy[i].EnemyBullet[j].Times = 0;
@@ -485,7 +569,7 @@ namespace SpaceShooter
         
         private void KhoiTaoEnemy()
         {
-            for (int i = 0; i < 2 + MyPlayer.Level; i++)
+            for (int i = 0; i < 3 + MyPlayer.Level; i++)
             {
                 Enemy TempEnemy = new Enemy();
                 InitalizeEnemy(ref TempEnemy);
@@ -502,13 +586,32 @@ namespace SpaceShooter
                 }
             }
         }
-
+        public void KhoiTaoBoss()
+        {
+            BossShow = true;
+            MyBoss = new Boss();
+            MyBoss.Location = new PointF(50, -400);
+            MyBoss.Health = 350;
+            MyBoss.TotalTime = 0;
+            MyBoss.BossBulletType1 = new List<Bullet>();
+            MyBoss.BossBulletType2 = new List<Bullet>();
+            Enemy_Timer.Stop();
+            EnemyBullet_Timer.Stop();
+            AttackEnemy_Timer.Stop();
+            AttackEnemyBullet_Timer.Stop();
+            HuongBoss = 1;
+            InitalizeBossBulletType1();
+            InitalizeBossBulletType2();
+            Boss_Timer.Start();
+            BossBullet_Timer.Start();
+        }
         public void InitalizeEnemy(ref Enemy TempEnemy)
         {
             TempEnemy.Location.X = rd.Next(0, 450);
             TempEnemy.Location.Y = rd.Next(-200,-100);
             TempEnemy.EnemyType = rd.Next(0, 3);
             TempEnemy.EnemyBullet = new List<Bullet>();
+            TempEnemy.Health = 1;
         }
 
         public void InitalizeAttackEnemy(ref AttackEnemy TempEnemy)
@@ -543,6 +646,7 @@ namespace SpaceShooter
             TempEnemy.c = TempEnemy.Location.Y - (TempEnemy.a * (TempEnemy.Location.X * TempEnemy.Location.X)) - (TempEnemy.b * TempEnemy.Location.X);
             TempEnemy.DeltaX = (TempPoint.X - TempEnemy.Location.X) / 400;
             TempEnemy.EnemyBullet = new List<Bullet>();
+            TempEnemy.Health = 5;
         }
         public bool KiemTraBanTrungEnemy(PointF a, PointF b)
         {
@@ -598,7 +702,6 @@ namespace SpaceShooter
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
                         i = ListEnemy.Count + 1;
-                        break;
                     }
                 }                             
             }
@@ -615,30 +718,32 @@ namespace SpaceShooter
                 {
                     if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i].Location) == true)
                     {
-                        ListAttackEnemy.RemoveAt(i);
-                        MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                        MyPlayer.MyBullet[j].Location.X += 17;
-                        MyPlayer.Mark++;
-                        if (MyPlayer.Mark == 2)
+                        ListAttackEnemy[i].Health--;
+                        if (ListAttackEnemy[i].Health == 0)
                         {
-                            MyPlayer.Mark = 0;
-                            MyPlayer.Level++;
-
-                            if (MyPlayer.Level < 3)
+                            ListAttackEnemy.RemoveAt(i);
+                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[j].Location.X += 17;
+                            MyPlayer.Mark++;
+                            if (MyPlayer.Mark == 2)
                             {
-                                Enemy TempEnemy = new Enemy();
-                                InitalizeEnemy(ref TempEnemy);
-                                ListEnemy.Add(TempEnemy);
+                                MyPlayer.Mark = 0;
+                                MyPlayer.Level++;
+                                if (MyPlayer.Level < 3)
+                                {
+                                    Enemy TempEnemy = new Enemy();
+                                    InitalizeEnemy(ref TempEnemy);
+                                    ListEnemy.Add(TempEnemy);
 
-                                AttackEnemy TempAttackEnemy = new AttackEnemy();
-                                InitalizeAttackEnemy(ref TempAttackEnemy);
-                                ListAttackEnemy.Add(TempAttackEnemy);
+                                    AttackEnemy TempAttackEnemy = new AttackEnemy();
+                                    InitalizeAttackEnemy(ref TempAttackEnemy);
+                                    ListAttackEnemy.Add(TempAttackEnemy);
+                                }
                             }
+                            Mark_Label.Text = MyPlayer.Mark.ToString();
+                            Level_Label.Text = MyPlayer.Level.ToString();
+                            i = ListAttackEnemy.Count + 1;
                         }
-                        Mark_Label.Text = MyPlayer.Mark.ToString();
-                        Level_Label.Text = MyPlayer.Level.ToString();
-                        i = ListAttackEnemy.Count + 1;
-                        break;
                     }
                 }
             }
@@ -649,26 +754,27 @@ namespace SpaceShooter
                     KhoiTaoAttackEnemy();
                 }
             }
+            
             if (BossShow == false)
             {
                 if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
                 {
-                    BossShow = true;
-                    MyBoss = new Boss();
-                    MyBoss.Location = new PointF(50, -400);
-                    MyBoss.Health = 30;
-                    MyBoss.TotalTime = 0;
-                    MyBoss.BossBulletType1 = new List<Bullet>();
-                    MyBoss.BossBulletType2 = new List<Bullet>();
-                    Enemy_Timer.Stop();
-                    EnemyBullet_Timer.Stop();
-                    AttackEnemy_Timer.Stop();
-                    AttackEnemyBullet_Timer.Stop();
-                    HuongBoss = 1;
-                    InitalizeBossBulletType1();
-                    InitalizeBossBulletType2();
-                    Boss_Timer.Start();
-                    BossBullet_Timer.Start();
+                    KhoiTaoBoss();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
+                {
+                    if (MyPlayer.MyBullet[i].Location.X <= MyBoss.Location.X + 314 && MyPlayer.MyBullet[i].Location.X + 4 >= MyBoss.Location.X && MyPlayer.MyBullet[i].Location.Y <= MyBoss.Location.Y + 187 && MyPlayer.MyBullet[i].Location.Y >= MyBoss.Location.Y + 23)
+                    {
+                        MyBoss.Health--;
+                        if (MyBoss.Health==0)
+                        {
+                            GameOver();
+                            return;
+                        }
+                    }
                 }
             }
         }
@@ -846,6 +952,8 @@ namespace SpaceShooter
             {
                 for (int i = 0; i < ListEnemy.Count; i++)
                 {
+                    gp.FillRectangle(new SolidBrush(Color.Red), ListEnemy[i].Location.X + 13, ListEnemy[i].Location.Y -5, 15, 3);
+                    gp.DrawRectangle(new Pen(Color.White), ListEnemy[i].Location.X + 13, ListEnemy[i].Location.Y -5, 15, 3);
                     if (ListEnemy[i].EnemyType == 1)
                     {
                         gp.DrawImage(Properties.Resources.EnemyBlack, ListEnemy[i].Location.X, ListEnemy[i].Location.Y);
@@ -868,12 +976,17 @@ namespace SpaceShooter
                 }
                 for (int i = 0; i < ListAttackEnemy.Count; i++)
                 {
+                  
                     if (ListAttackEnemy[i].EnemyType == 1)
                     {
+                        gp.FillRectangle(new SolidBrush(Color.Red), ListAttackEnemy[i].Location.X + 40, ListAttackEnemy[i].Location.Y+8, (30 / 5) * ListAttackEnemy[i].Health, 3);
+                        gp.DrawRectangle(new Pen(Color.White), ListAttackEnemy[i].Location.X + 40, ListAttackEnemy[i].Location.Y +8, 30, 3);
                         gp.DrawImage(Properties.Resources.UFO, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
                     }
                     else
                     {
+                        gp.FillRectangle(new SolidBrush(Color.Red), ListAttackEnemy[i].Location.X + 25, ListAttackEnemy[i].Location.Y - 5, (30 / 5) * ListAttackEnemy[i].Health, 3);
+                        gp.DrawRectangle(new Pen(Color.White), ListAttackEnemy[i].Location.X + 25, ListAttackEnemy[i].Location.Y - 5, 30, 3);
                         gp.DrawImage(Properties.Resources.UFO2, ListAttackEnemy[i].Location.X, ListAttackEnemy[i].Location.Y);
                     }
                     for (int j = 0; j < ListAttackEnemy[i].EnemyBullet.Count; j++)
@@ -883,11 +996,7 @@ namespace SpaceShooter
                 }
                 gp.DrawImage(Properties.Resources.Rock, MyRock.Location);
                 if (MyBoss != null)
-                {
-                    if (MyBoss.FinalSkill == true)
-                    {
-                        gp.FillRectangle(new SolidBrush(Color.LightYellow), MyBoss.Location.X + 135, MyBoss.Location.Y + 50, 150, 800);
-                    }
+                {       
                     for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
                     {
                         if (MyBoss.BossBulletType1[i].TypeBullet == 1)
@@ -907,9 +1016,17 @@ namespace SpaceShooter
                     {
                         gp.DrawImage(Properties.Resources.BossCircleBullet, MyBoss.BossBulletType2[i].Location);
                     }
+                    if (MyBoss.FinalSkill == true)
+                    {
+                        gp.FillRectangle(new SolidBrush(Color.LightYellow), MyBoss.Location.X + 135, MyBoss.Location.Y + 50, 150, 800);
+                    }
+                    gp.FillRectangle(new SolidBrush(Color.Red), MyBoss.Location.X+30 , MyBoss.Location.Y - 30, MyBoss.Health , 10);
+                    gp.DrawRectangle(new Pen(Color.White), MyBoss.Location.X +30, MyBoss.Location.Y - 30, 350, 10);
                     gp.DrawImage(Properties.Resources.Boss, MyBoss.Location);
                 }
                 gp.DrawImage(Properties.Resources.Player, MyPlayer.Location);
+                gp.FillRectangle(new SolidBrush(Color.Red), MyPlayer.Location.X+10, MyPlayer.Location.Y + 50, (22/10)*MyPlayer.Health, 3);
+                gp.DrawRectangle(new Pen(Color.Black), MyPlayer.Location.X+10, MyPlayer.Location.Y + 50, 22, 2);
                 for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
                 {
                     gp.DrawImage(Properties.Resources.laserBlue01, MyPlayer.MyBullet[i].Location);
@@ -977,12 +1094,14 @@ namespace SpaceShooter
         public class Enemy
         {
             public PointF Location;
+            public int Health;
             public int EnemyType;
             public List<Bullet> EnemyBullet;
         }
         public class AttackEnemy
         {
             public PointF Location;
+            public int Health;
             public int EnemyType;
             public List<Bullet> EnemyBullet;
             public float a;
@@ -1005,6 +1124,7 @@ namespace SpaceShooter
             public List<Bullet> MyBullet;
             public int Mark;
             public int Level;
+            public int Health;
         }
         public class Bullet
         {

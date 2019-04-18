@@ -908,7 +908,7 @@ namespace SpaceShooter
 
             Start_Button.Text = ("Play Again");
             IsStart = false;
-            Status = 1;
+            Status = 2;
             BossShow = false;
             KhoiTao();
             Mark_Label.Text = MyPlayer.Mark.ToString();
@@ -942,7 +942,7 @@ namespace SpaceShooter
             if (IsStart == false)
             {
                 if (Status == 0)
-                {
+                {                 
                     gp.DrawImage(Properties.Resources.Brand1, new PointF(80, 120));
                 }
                 else
@@ -955,7 +955,8 @@ namespace SpaceShooter
                     {
                         if (Status == 2)
                         {
-                            gp.DrawString("You Win", new Font("Gill Sans", 80, FontStyle.Bold), new SolidBrush(Color.Red), new Point(30, 110));
+                            gp.DrawImage(Properties.Resources.YouWin, new PointF(60, 80));
+                            //gp.DrawString("You Win", new Font("Gill Sans", 80, FontStyle.Bold), new SolidBrush(Color.Red), new Point(30, 110));
                         }
                     }
                 }

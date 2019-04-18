@@ -172,10 +172,13 @@
     <None Include="Resources\BossBullet2.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\YouWin.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\YouWin1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\YouWin.png" />
+    <None Include="Resources\YouWin3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

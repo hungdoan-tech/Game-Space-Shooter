@@ -223,6 +223,7 @@ namespace SpaceShooter
             MyItem.Location.Y += MyPlayer.Level + 4;
             if (MyItem.Location.Y > Main_PictureBox.Height+20)
             {
+                MyItem.Location.Y = -900;
                 MyItem.Times = 0;
                 Item_Timer.Stop();
             }
@@ -415,7 +416,7 @@ namespace SpaceShooter
                     if (i == 0)
                     {
                         MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                        MyPlayer.MyBullet[i].Location.X += 0;
+                        MyPlayer.MyBullet[i].Location.X += -5;
                         MyPlayer.MyBullet[i].Location.Y -= 10;
                     }
                     if (i == 1)
@@ -427,7 +428,7 @@ namespace SpaceShooter
                     if (i == 2)
                     {
                         MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                        MyPlayer.MyBullet[i].Location.X += 35;
+                        MyPlayer.MyBullet[i].Location.X += 40;
                         MyPlayer.MyBullet[i].Location.Y -= 10;
                     }
                 }               
@@ -811,7 +812,7 @@ namespace SpaceShooter
                         if (MyItem.Times == 10)
                         {
                             MyItem.TypeItem = rd.Next(0, 2);
-                            MyItem.Location = ListAttackEnemy[i].Location;
+                            MyItem.Location = ListEnemy[i].Location;
                             Item_Timer.Start();
                         }
                         ListEnemy.RemoveAt(i);
@@ -823,7 +824,6 @@ namespace SpaceShooter
                         {
                             MyPlayer.Mark = 0;
                             MyPlayer.Level++;
-
                             if (MyPlayer.Level < 3)
                             {
                                 Enemy TempEnemy = new Enemy();
@@ -837,8 +837,7 @@ namespace SpaceShooter
                         }
                         Mark_Label.Text = MyPlayer.Mark.ToString();
                         Level_Label.Text = MyPlayer.Level.ToString();
-                        i = ListEnemy.Count + 10;
-                        break;
+                        return;
                     }
                 }                             
             }
@@ -865,8 +864,7 @@ namespace SpaceShooter
                             MyItem.Times++;
                             if (MyItem.Times == 10)
                             {
-                                MyItem.TypeItem = 1;
-                                //MyItem.TypeItem = rd.Next(1, 2);
+                                MyItem.TypeItem = rd.Next(0, 2);
                                 MyItem.Location = ListAttackEnemy[i].Location;
                                 Item_Timer.Start();
                             }
@@ -891,8 +889,7 @@ namespace SpaceShooter
                             }
                             Mark_Label.Text = MyPlayer.Mark.ToString();
                             Level_Label.Text = MyPlayer.Level.ToString();
-                            i = ListAttackEnemy.Count + 10;
-                            break;                           
+                            return;
                         }
                     }
                 }

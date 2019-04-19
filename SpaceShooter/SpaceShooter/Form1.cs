@@ -39,7 +39,113 @@ namespace SpaceShooter
             gp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             KhoiTao();
         }
-        
+
+        #region Khoitao
+        private void KhoiTaoAttackEnemy()
+        {
+            for (int i = 0; i < MyPlayer.Level; i++)
+            {
+                AttackEnemy TempEnemy = new AttackEnemy();
+                InitalizeAttackEnemy(ref TempEnemy);
+                ListAttackEnemy.Add(TempEnemy);
+            }
+            for (int i = 0; i < ListAttackEnemy.Count; i++)
+            {
+                // if (rd.Next(0, 3) != 1)
+                {
+                    Bullet NewBullet = new Bullet();
+                    NewBullet.Location = ListAttackEnemy[i].Location;
+                    NewBullet.Location.X += 15;
+
+                    NewBullet.a = (MyPlayer.Location.Y - NewBullet.Location.Y) / (MyPlayer.Location.X - NewBullet.Location.X);
+                    NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+                    NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
+                    NewBullet.Times = 0;
+                    NewBullet.TotalTime = 0;
+                    ListAttackEnemy[i].EnemyBullet.Add(NewBullet);
+                }
+            }
+        }
+        private void KhoiTaoEnemy()
+        {
+            for (int i = 0; i < 3 + MyPlayer.Level; i++)
+            {
+                Enemy TempEnemy = new Enemy();
+                InitalizeEnemy(ref TempEnemy);
+                ListEnemy.Add(TempEnemy);
+            }
+            for (int i = 0; i < ListEnemy.Count; i++)
+            {
+                if (rd.Next(0, 3) != 1)
+                {
+                    Bullet NewBullet = new Bullet();
+                    NewBullet.Location = ListEnemy[i].Location;
+                    NewBullet.Location.X += 15;
+                    ListEnemy[i].EnemyBullet.Add(NewBullet);
+                }
+            }
+        }
+        public void KhoiTaoBoss()
+        {
+            BossShow = true;
+            MyBoss = new Boss();
+            MyBoss.Location = new PointF(50, -400);
+            MyBoss.Health = 500;
+            MyBoss.TotalTime = 0;
+            MyBoss.BossBulletType1 = new List<Bullet>();
+            MyBoss.BossBulletType2 = new List<Bullet>();
+            Enemy_Timer.Stop();
+            EnemyBullet_Timer.Stop();
+            AttackEnemy_Timer.Stop();
+            AttackEnemyBullet_Timer.Stop();
+            HuongBoss = 1;
+            InitalizeBossBulletType1();
+            InitalizeBossBulletType2();
+            Boss_Timer.Start();
+            BossBullet_Timer.Start();
+        }
+        public void InitalizeEnemy(ref Enemy TempEnemy)
+        {
+            TempEnemy.Location.X = rd.Next(0, 450);
+            TempEnemy.Location.Y = rd.Next(-200, -100);
+            TempEnemy.EnemyType = rd.Next(0, 3);
+            TempEnemy.EnemyBullet = new List<Bullet>();
+            TempEnemy.Health = 1;
+        }
+        public void InitalizeAttackEnemy(ref AttackEnemy TempEnemy)
+        {
+            TempEnemy.EnemyType = rd.Next();
+            TempEnemy.EnemyType = (TempEnemy.EnemyType % 2) == 1 ? 1 : 2;
+            if (TempEnemy.EnemyType == 1)
+            {
+                TempEnemy.Location.X = rd.Next(-200, -100);
+            }
+            else
+            {
+                TempEnemy.Location.X = rd.Next(700, 800);
+            }
+            TempEnemy.Location.Y = rd.Next(-300, -200);
+
+            PointF TempPoint = new PointF();
+            TempPoint.X = rd.Next(225, 275);
+            TempPoint.Y = rd.Next(200, 430);
+
+            if (TempEnemy.Location.X - TempPoint.X == 0)
+            {
+                TempEnemy.Location.X += 10;
+            }
+            float X1 = (TempEnemy.Location.X * TempEnemy.Location.X) - (TempPoint.X * TempPoint.X);
+            float X2 = TempEnemy.Location.X - TempPoint.X;
+            float X3 = 2 * TempPoint.X;
+            float Y = TempEnemy.Location.Y - TempPoint.Y;
+
+            TempEnemy.a = (Y / (X1 - (X2 * X3)));
+            TempEnemy.b = -(TempEnemy.a * X3);
+            TempEnemy.c = TempEnemy.Location.Y - (TempEnemy.a * (TempEnemy.Location.X * TempEnemy.Location.X)) - (TempEnemy.b * TempEnemy.Location.X);
+            TempEnemy.DeltaX = (TempPoint.X - TempEnemy.Location.X) / 400;
+            TempEnemy.EnemyBullet = new List<Bullet>();
+            TempEnemy.Health = 5;
+        }
         private void KhoiTao()
         {
 
@@ -91,7 +197,311 @@ namespace SpaceShooter
             MyItem = new Item();
             MyItem.Times = 0;
         }
-       
+        public void InitalizeBossBulletType1()
+        {
+            Bullet NewBullet;
+            PointF A;
+            PointF B;
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 1;
+            A = new PointF(MyBoss.Location.X + rd.Next(350, 500), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X + rd.Next(-250, -150), 700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 2;
+            A = new PointF(MyBoss.Location.X + rd.Next(-250, -150), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X + rd.Next(350, 550), 700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+
+            NewBullet = new Bullet();
+            NewBullet.TypeBullet = 3;
+            A = new PointF(MyBoss.Location.X + rd.Next(115, 150), MyBoss.Location.Y + 50);
+            NewBullet.Location = A;
+            B = new PointF(A.X + rd.Next(105, 140), 700);
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
+            MyBoss.BossBulletType1.Add(NewBullet);
+
+        }
+        public void InitalizeBossBulletType2()
+        {
+            Bullet NewBullet;
+            PointF A;
+            PointF B;
+
+            NewBullet = new Bullet();
+            NewBullet.Location = MyBoss.Location;
+            NewBullet.Location.X += 100;
+            A = NewBullet.Location;
+            B = MyPlayer.Location;
+            if (A.Y - B.Y == 0)
+            {
+                A.Y += 3;
+            }
+            if (A.X - B.X == 0)
+            {
+                A.X += 3;
+            }
+            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
+            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
+            NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 30;
+            NewBullet.Times = 0;
+            NewBullet.TotalTime = 0;
+            MyBoss.BossBulletType2.Add(NewBullet);
+        }
+        #endregion
+
+        #region process
+        public bool KiemTraBanTrungEnemy(PointF a, PointF b)
+        {
+            if (a.Y >= 0)
+            {
+                if (a.X <= b.X + 30 && a.X + 4 >= b.X + 3 && a.Y <= b.Y + 23 && a.Y >= b.Y + 3)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool KiemTraBanTrungAttackEnemy(PointF a, AttackEnemy b)
+        {
+            if (a.Y >= 0)
+            {
+                if (b.EnemyType == 1)
+                {
+                    if (a.X <= b.Location.X + 80 && a.X + 4 >= b.Location.X + 20 && a.Y <= b.Location.Y + 65 && a.Y >= b.Location.Y + 23)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (a.X <= b.Location.X + 61 && a.X + 4 >= b.Location.X && a.Y <= b.Location.Y + 50 && a.Y >= b.Location.Y)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public void KiemTra()
+        {
+            for (int i = 0; i < ListEnemy.Count; i++)
+            {
+                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
+                {
+                    if (KiemTraBanTrungEnemy(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
+                    {
+                        for (int h = 0; h < ListEnemy[i].EnemyBullet.Count; h++)
+                        {
+                            ListTempEnemyBullet.Add(ListEnemy[i].EnemyBullet[h]);
+                        }
+                        MyItem.Times++;
+                        if (MyItem.Times == 15)
+                        {
+                            MyItem.TypeItem = rd.Next(0, 2);
+                            MyItem.Location = ListEnemy[i].Location;
+                            Item_Timer.Start();
+                        }
+                        ListEnemy.RemoveAt(i);
+                        if (j == 0)
+                        {
+                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[j].Location.X += -5;
+                            MyPlayer.MyBullet[j].Location.Y -= 10;
+                        }
+                        if (j == 1)
+                        {
+                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[j].Location.X += 17;
+                            MyPlayer.MyBullet[j].Location.Y -= 20;
+                        }
+                        if (j == 2)
+                        {
+                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[j].Location.X += 40;
+                            MyPlayer.MyBullet[j].Location.Y -= 10;
+                        }
+                        MyItem.Times++;
+                        MyPlayer.Mark++;
+                        if (MyPlayer.Mark == 20)
+                        {
+                            MyPlayer.Mark = 0;
+                            MyPlayer.Level++;
+                            if (MyPlayer.Level < 3)
+                            {
+                                Enemy TempEnemy = new Enemy();
+                                InitalizeEnemy(ref TempEnemy);
+                                ListEnemy.Add(TempEnemy);
+
+                                AttackEnemy TempAttackEnemy = new AttackEnemy();
+                                InitalizeAttackEnemy(ref TempAttackEnemy);
+                                ListAttackEnemy.Add(TempAttackEnemy);
+                            }
+                        }
+                        Mark_Label.Text = MyPlayer.Mark.ToString();
+                        Level_Label.Text = MyPlayer.Level.ToString();
+                        return;
+                    }
+                }
+            }
+            if (MyPlayer.Level < 3)
+            {
+                if (ListEnemy.Count == 0)
+                {
+                    KhoiTaoEnemy();
+                }
+            }
+            for (int i = 0; i < ListAttackEnemy.Count; i++)
+            {
+                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
+                {
+                    if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i]) == true)
+                    {
+                        ListAttackEnemy[i].Health--;
+                        if (ListAttackEnemy[i].Health == 0)
+                        {
+                            for (int h = 0; h < ListAttackEnemy[i].EnemyBullet.Count; h++)
+                            {
+                                ListTempAttackEnemyBullet.Add(ListAttackEnemy[i].EnemyBullet[h]);
+                            }
+                            MyItem.Times++;
+                            if (MyItem.Times == 15)
+                            {
+                                MyItem.TypeItem = rd.Next(0, 2);
+                                MyItem.Location = ListAttackEnemy[i].Location;
+                                Item_Timer.Start();
+                            }
+                            ListAttackEnemy.RemoveAt(i);
+                            if (j == 0)
+                            {
+                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                                MyPlayer.MyBullet[j].Location.X += -5;
+                                MyPlayer.MyBullet[j].Location.Y -= 10;
+                            }
+                            if (j == 1)
+                            {
+                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                                MyPlayer.MyBullet[j].Location.X += 17;
+                                MyPlayer.MyBullet[j].Location.Y -= 20;
+                            }
+                            if (j == 2)
+                            {
+                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
+                                MyPlayer.MyBullet[j].Location.X += 40;
+                                MyPlayer.MyBullet[j].Location.Y -= 10;
+                            }
+                            MyPlayer.Mark++;
+                            if (MyPlayer.Mark == 20)
+                            {
+                                MyPlayer.Mark = 0;
+                                MyPlayer.Level++;
+                                if (MyPlayer.Level < 3)
+                                {
+                                    Enemy TempEnemy = new Enemy();
+                                    InitalizeEnemy(ref TempEnemy);
+                                    ListEnemy.Add(TempEnemy);
+
+                                    AttackEnemy TempAttackEnemy = new AttackEnemy();
+                                    InitalizeAttackEnemy(ref TempAttackEnemy);
+                                    ListAttackEnemy.Add(TempAttackEnemy);
+                                }
+                            }
+                            Mark_Label.Text = MyPlayer.Mark.ToString();
+                            Level_Label.Text = MyPlayer.Level.ToString();
+                            return;
+                        }
+                    }
+                }
+            }
+            if (MyPlayer.Level < 3)
+            {
+                if (ListAttackEnemy.Count == 0)
+                {
+                    KhoiTaoAttackEnemy();
+                }
+            }
+
+            if (BossShow == false)
+            {
+                if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
+                {
+                    KhoiTaoBoss();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
+                {
+                    if (MyPlayer.MyBullet[i].Location.X <= MyBoss.Location.X + 350 && MyPlayer.MyBullet[i].Location.X + 4 >= MyBoss.Location.X + 45 && MyPlayer.MyBullet[i].Location.Y <= MyBoss.Location.Y + 187 && MyPlayer.MyBullet[i].Location.Y >= MyBoss.Location.Y + 23)
+                    {
+                        MyBoss.Health--;
+                        if (i == 0)
+                        {
+                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[i].Location.X += -5;
+                            MyPlayer.MyBullet[i].Location.Y -= 10;
+                        }
+                        if (i == 1)
+                        {
+                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[i].Location.X += 17;
+                            MyPlayer.MyBullet[i].Location.Y -= 20;
+                        }
+                        if (i == 2)
+                        {
+                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
+                            MyPlayer.MyBullet[i].Location.X += 40;
+                            MyPlayer.MyBullet[i].Location.Y -= 10;
+                        }
+                        if (MyBoss.Health == 0)
+                        {
+                            GameWin();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Timer
         private void StarTimer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < ListStar.Length; i++)
@@ -164,7 +574,6 @@ namespace SpaceShooter
                 }
             }
         }
-
         private void LostBullet_Timer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < ListTempEnemyBullet.Count; i++)
@@ -220,7 +629,6 @@ namespace SpaceShooter
                 }
             }
         }
-
         private void Item_Timer_Tick(object sender, EventArgs e)
         {
             MyItem.Location.Y += MyPlayer.Level + 4;
@@ -501,7 +909,6 @@ namespace SpaceShooter
                 MyBoss.TotalTime = 0;
             }
         }
-
         private void BossBullet_Timer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < MyBoss.BossBulletType1.Count; i++)
@@ -605,31 +1012,6 @@ namespace SpaceShooter
                 InitalizeBossBulletType2();
             }
         }
-        private void KhoiTaoAttackEnemy()
-        {
-            for (int i = 0; i < MyPlayer.Level; i++)
-            {
-                AttackEnemy TempEnemy = new AttackEnemy();
-                InitalizeAttackEnemy(ref TempEnemy);
-                ListAttackEnemy.Add(TempEnemy);
-            }
-            for (int i = 0; i < ListAttackEnemy.Count; i++)
-            {
-               // if (rd.Next(0, 3) != 1)
-                {
-                    Bullet NewBullet = new Bullet();
-                    NewBullet.Location = ListAttackEnemy[i].Location;
-                    NewBullet.Location.X += 15;
-
-                    NewBullet.a = (MyPlayer.Location.Y - NewBullet.Location.Y) / (MyPlayer.Location.X - NewBullet.Location.X);
-                    NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-                    NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 50;
-                    NewBullet.Times = 0;
-                    NewBullet.TotalTime=0;
-                    ListAttackEnemy[i].EnemyBullet.Add(NewBullet);
-                }
-            }
-        }
         private void AttackEnemyBullet_Timer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < ListAttackEnemy.Count; i++)
@@ -685,387 +1067,79 @@ namespace SpaceShooter
                 }
             }
         }
-        
-        private void KhoiTaoEnemy()
+        #endregion
+
+        #region Event
+        private void Main_PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            for (int i = 0; i < 3 + MyPlayer.Level; i++)
+            if (e.Location.Y < 100)
             {
-                Enemy TempEnemy = new Enemy();
-                InitalizeEnemy(ref TempEnemy);
-                ListEnemy.Add(TempEnemy);
+                MyPlayer.Location.Y = 100;
+                return;
             }
-            for (int i = 0; i < ListEnemy.Count; i++)
+            MyPlayer.Location = e.Location;
+        }
+        private void Start_Button_Click(object sender, EventArgs e)
+        {
+            Start_Button.Hide();
+            Exit_Button.Hide();
+            MarkLogo_Label.Show();
+            Mark_Label.Show();
+            Level_Label.Show();
+            LevelLogo_Label.Show();
+            IsStart = true;
+            Status = 0;
+            Cursor.Hide();
+            MyBoss = null;
+            Star_Timer.Start();
+            Enemy_Timer.Start();
+            Rock_Timer.Start();
+            Bullet_Timer.Start();
+            AttackEnemy_Timer.Start();
+            AttackEnemyBullet_Timer.Start();
+            EnemyBullet_Timer.Start();
+            AttackEnemyBullet_Timer.Start();
+            LostBullet_Timer.Start();
+            if (MyItem.Location.Y > 0)
             {
-                if (rd.Next(0, 3)!=1)
-                {
-                    Bullet NewBullet = new Bullet();
-                    NewBullet.Location = ListEnemy[i].Location;
-                    NewBullet.Location.X += 15;
-                    ListEnemy[i].EnemyBullet.Add(NewBullet);
-                }
+                Item_Timer.Start();
+            }
+            if (BossShow == true)
+            {
+                Boss_Timer.Start();
+                BossBullet_Timer.Start();
             }
         }
-        public void KhoiTaoBoss()
+        private void Exit_Button_Click(object sender, EventArgs e)
         {
-            BossShow = true;
-            MyBoss = new Boss();
-            MyBoss.Location = new PointF(50, -400);
-            MyBoss.Health = 500;
-            MyBoss.TotalTime = 0;
-            MyBoss.BossBulletType1 = new List<Bullet>();
-            MyBoss.BossBulletType2 = new List<Bullet>();
-            Enemy_Timer.Stop();
-            EnemyBullet_Timer.Stop();
-            AttackEnemy_Timer.Stop();
-            AttackEnemyBullet_Timer.Stop();
-            HuongBoss = 1;
-            InitalizeBossBulletType1();
-            InitalizeBossBulletType2();
-            Boss_Timer.Start();
-            BossBullet_Timer.Start();
+            this.Close();
         }
-        public void InitalizeEnemy(ref Enemy TempEnemy)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            TempEnemy.Location.X = rd.Next(0, 450);
-            TempEnemy.Location.Y = rd.Next(-200,-100);
-            TempEnemy.EnemyType = rd.Next(0, 3);
-            TempEnemy.EnemyBullet = new List<Bullet>();
-            TempEnemy.Health = 1;
-        }
-
-        public void InitalizeAttackEnemy(ref AttackEnemy TempEnemy)
-        {
-            TempEnemy.EnemyType = rd.Next();
-            TempEnemy.EnemyType = (TempEnemy.EnemyType % 2) == 1 ? 1 : 2;
-            if (TempEnemy.EnemyType == 1)
+            if (e.KeyCode == Keys.Escape)
             {
-                TempEnemy.Location.X = rd.Next(-200, -100);
-            }
-            else
-            {
-                TempEnemy.Location.X = rd.Next(700, 800);
-            }
-            TempEnemy.Location.Y = rd.Next(-300, -200);
-
-            PointF TempPoint = new PointF();
-            TempPoint.X = rd.Next(225, 275);
-            TempPoint.Y = rd.Next(200, 430);
-
-            if (TempEnemy.Location.X - TempPoint.X == 0)
-            {
-                TempEnemy.Location.X += 10;
-            }
-            float X1 = (TempEnemy.Location.X * TempEnemy.Location.X) - (TempPoint.X * TempPoint.X);
-            float X2 = TempEnemy.Location.X - TempPoint.X;
-            float X3 = 2 * TempPoint.X;
-            float Y = TempEnemy.Location.Y - TempPoint.Y;
-
-            TempEnemy.a = (Y / (X1 - (X2 * X3)));
-            TempEnemy.b = -(TempEnemy.a * X3);
-            TempEnemy.c = TempEnemy.Location.Y - (TempEnemy.a * (TempEnemy.Location.X * TempEnemy.Location.X)) - (TempEnemy.b * TempEnemy.Location.X);
-            TempEnemy.DeltaX = (TempPoint.X - TempEnemy.Location.X) / 400;
-            TempEnemy.EnemyBullet = new List<Bullet>();
-            TempEnemy.Health = 5;
-        }
-        public bool KiemTraBanTrungEnemy(PointF a, PointF b)
-        {
-            if (a.Y >= 0)
-            {
-                if (a.X <= b.X + 30 && a.X + 4 >= b.X + 3 && a.Y <= b.Y+ 23 && a.Y >= b.Y+3)
+                if (IsStart == true)
                 {
-                    return true;
+                    Cursor.Show();
+                    Start_Button.Show();
+                    Exit_Button.Show();
+                    Start_Button.Text = "Continue";
                 }
-            }
-            return false;
-        }
-        public bool KiemTraBanTrungAttackEnemy(PointF a, AttackEnemy b)
-        {
-            if (a.Y >= 0)
-            {
-                if (b.EnemyType == 1)
-                {
-                    if (a.X <= b.Location.X + 80 && a.X + 4 >= b.Location.X + 20 && a.Y <= b.Location.Y + 65 && a.Y >= b.Location.Y + 23)
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (a.X <= b.Location.X + 61 && a.X + 4 >= b.Location.X  && a.Y <= b.Location.Y + 50 && a.Y >= b.Location.Y)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        public void KiemTra()
-        {
-            for (int i = 0; i < ListEnemy.Count; i++)
-            {
-                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
-                {
-                    if (KiemTraBanTrungEnemy(MyPlayer.MyBullet[j].Location, ListEnemy[i].Location) == true)
-                    {
-                        for (int h = 0; h < ListEnemy[i].EnemyBullet.Count; h++)
-                        {
-                            ListTempEnemyBullet.Add(ListEnemy[i].EnemyBullet[h]);
-                        }
-                        MyItem.Times++;
-                        if (MyItem.Times == 15)
-                        {
-                            MyItem.TypeItem = rd.Next(0, 2);
-                            MyItem.Location = ListEnemy[i].Location;
-                            Item_Timer.Start();
-                        }
-                        ListEnemy.RemoveAt(i);
-                        if (j == 0)
-                        {
-                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[j].Location.X += -5;
-                            MyPlayer.MyBullet[j].Location.Y -= 10;
-                        }
-                        if (j == 1)
-                        {
-                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[j].Location.X += 17;
-                            MyPlayer.MyBullet[j].Location.Y -= 20;
-                        }
-                        if (j == 2)
-                        {
-                            MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[j].Location.X += 40;
-                            MyPlayer.MyBullet[j].Location.Y -= 10;
-                        }
-                        MyItem.Times++;
-                        MyPlayer.Mark++;
-                        if (MyPlayer.Mark == 20)
-                        {
-                            MyPlayer.Mark = 0;
-                            MyPlayer.Level++;
-                            if (MyPlayer.Level < 3)
-                            {
-                                Enemy TempEnemy = new Enemy();
-                                InitalizeEnemy(ref TempEnemy);
-                                ListEnemy.Add(TempEnemy);
-
-                                AttackEnemy TempAttackEnemy = new AttackEnemy();
-                                InitalizeAttackEnemy(ref TempAttackEnemy);
-                                ListAttackEnemy.Add(TempAttackEnemy);
-                            }
-                        }
-                        Mark_Label.Text = MyPlayer.Mark.ToString();
-                        Level_Label.Text = MyPlayer.Level.ToString();
-                        return;
-                    }
-                }                             
-            }
-            if (MyPlayer.Level < 3)
-            {
-                if (ListEnemy.Count == 0)
-                {
-                    KhoiTaoEnemy();
-                }
-            }
-            for (int i = 0; i < ListAttackEnemy.Count; i++)
-            {
-                for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
-                {
-                    if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i]) == true)
-                    {
-                        ListAttackEnemy[i].Health--;
-                        if (ListAttackEnemy[i].Health == 0)
-                        {
-                            for (int h = 0; h < ListAttackEnemy[i].EnemyBullet.Count; h++)
-                            {
-                                ListTempAttackEnemyBullet.Add(ListAttackEnemy[i].EnemyBullet[h]);
-                            }
-                            MyItem.Times++;
-                            if (MyItem.Times == 15)
-                            {
-                                MyItem.TypeItem = rd.Next(0, 2);
-                                MyItem.Location = ListAttackEnemy[i].Location;
-                                Item_Timer.Start();
-                            }
-                            ListAttackEnemy.RemoveAt(i);
-                            if (j == 0)
-                            {
-                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                                MyPlayer.MyBullet[j].Location.X += -5;
-                                MyPlayer.MyBullet[j].Location.Y -= 10;
-                            }
-                            if (j == 1)
-                            {
-                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                                MyPlayer.MyBullet[j].Location.X += 17;
-                                MyPlayer.MyBullet[j].Location.Y -= 20;
-                            }
-                            if (j == 2)
-                            {
-                                MyPlayer.MyBullet[j].Location = MyPlayer.Location;
-                                MyPlayer.MyBullet[j].Location.X += 40;
-                                MyPlayer.MyBullet[j].Location.Y -= 10;
-                            }
-                            MyPlayer.Mark++;                          
-                            if (MyPlayer.Mark == 20)
-                            {
-                                MyPlayer.Mark = 0;
-                                MyPlayer.Level++;
-                                if (MyPlayer.Level < 3)
-                                {
-                                    Enemy TempEnemy = new Enemy();
-                                    InitalizeEnemy(ref TempEnemy);
-                                    ListEnemy.Add(TempEnemy);
-
-                                    AttackEnemy TempAttackEnemy = new AttackEnemy();
-                                    InitalizeAttackEnemy(ref TempAttackEnemy);
-                                    ListAttackEnemy.Add(TempAttackEnemy);
-                                }
-                            }
-                            Mark_Label.Text = MyPlayer.Mark.ToString();
-                            Level_Label.Text = MyPlayer.Level.ToString();
-                            return;
-                        }
-                    }
-                }
-            }
-            if (MyPlayer.Level < 3 )
-            {
-                if (ListAttackEnemy.Count == 0)
-                {
-                    KhoiTaoAttackEnemy();
-                }
-            }
-            
-            if (BossShow == false)
-            {
-                if (MyPlayer.Level >= 3 && ListEnemy.Count == 0 && ListAttackEnemy.Count == 0)
-                {
-                    KhoiTaoBoss();
-                }
-            }
-            else
-            {
-                for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
-                {
-                    if (MyPlayer.MyBullet[i].Location.X <= MyBoss.Location.X + 350 && MyPlayer.MyBullet[i].Location.X + 4 >= MyBoss.Location.X+45 && MyPlayer.MyBullet[i].Location.Y <= MyBoss.Location.Y + 187 && MyPlayer.MyBullet[i].Location.Y >= MyBoss.Location.Y + 23)
-                    {
-                        MyBoss.Health--;
-                        if (i == 0)
-                        {
-                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[i].Location.X += -5;
-                            MyPlayer.MyBullet[i].Location.Y -= 10;
-                        }
-                        if (i == 1)
-                        {
-                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[i].Location.X += 17;
-                            MyPlayer.MyBullet[i].Location.Y -= 20;
-                        }
-                        if (i == 2)
-                        {
-                            MyPlayer.MyBullet[i].Location = MyPlayer.Location;
-                            MyPlayer.MyBullet[i].Location.X += 40;
-                            MyPlayer.MyBullet[i].Location.Y -= 10;
-                        }
-                        if (MyBoss.Health==0)
-                        {
-                            GameWin();
-                            return;
-                        }
-                    }
-                }
+                Enemy_Timer.Stop();
+                EnemyBullet_Timer.Stop();
+                Bullet_Timer.Stop();
+                Rock_Timer.Stop();
+                Star_Timer.Stop();
+                AttackEnemy_Timer.Stop();
+                AttackEnemyBullet_Timer.Stop();
+                Boss_Timer.Stop();
+                BossBullet_Timer.Stop();
+                LostBullet_Timer.Stop();
+                Item_Timer.Stop();
             }
         }
-        public void InitalizeBossBulletType1()
-        {
-            Bullet NewBullet;
-            PointF A;
-            PointF B;
+        #endregion
 
-            NewBullet = new Bullet();
-            NewBullet.TypeBullet = 1;
-            A = new PointF(MyBoss.Location.X + rd.Next(350,500), MyBoss.Location.Y + 50);
-            NewBullet.Location = A;
-            B = new PointF(A.X + rd.Next(-250,-150), 700);
-            if (A.Y - B.Y == 0)
-            {
-                A.Y += 3;
-            }
-            if (A.X - B.X == 0)
-            {
-                A.X += 3;
-            }
-            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
-            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
-            MyBoss.BossBulletType1.Add(NewBullet);
-
-            NewBullet = new Bullet();
-            NewBullet.TypeBullet = 2;
-            A = new PointF(MyBoss.Location.X +rd.Next(-250,-150), MyBoss.Location.Y + 50);
-            NewBullet.Location = A;
-            B = new PointF(A.X + rd.Next(350,550), 700);
-            if (A.Y - B.Y == 0)
-            {
-                A.Y += 3;
-            }
-            if (A.X - B.X == 0)
-            {
-                A.X += 3;
-            }
-            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
-            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
-            MyBoss.BossBulletType1.Add(NewBullet);
-
-
-            NewBullet = new Bullet();
-            NewBullet.TypeBullet = 3;
-            A = new PointF(MyBoss.Location.X + rd.Next(115,150), MyBoss.Location.Y + 50);
-            NewBullet.Location = A;
-            B = new PointF(A.X+ rd.Next(105,140),700);
-            if (A.Y - B.Y == 0)
-            {
-                A.Y += 3;
-            }
-            if (A.X - B.X == 0)
-            {
-                A.X += 3;
-            }
-            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
-            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-            NewBullet.DeltaX = (B.X - NewBullet.Location.X) / 200;
-            MyBoss.BossBulletType1.Add(NewBullet);
-
-        }
-        public void InitalizeBossBulletType2()
-        {
-            Bullet NewBullet;
-            PointF A;
-            PointF B;
-
-            NewBullet = new Bullet();
-            NewBullet.Location = MyBoss.Location;
-            NewBullet.Location.X += 100;
-            A = NewBullet.Location;
-            B = MyPlayer.Location;
-            if (A.Y - B.Y == 0)
-            {
-                A.Y+=3;
-            }
-            if (A.X - B.X == 0)
-            {
-                A.X += 3;
-            }
-            NewBullet.a = (A.Y - B.Y) / (A.X - B.X);
-            NewBullet.b = NewBullet.Location.Y - (NewBullet.a * NewBullet.Location.X);
-            NewBullet.DeltaX = (MyPlayer.Location.X - NewBullet.Location.X) / 30;
-            NewBullet.Times = 0;
-            NewBullet.TotalTime = 0;
-            MyBoss.BossBulletType2.Add(NewBullet);
-        }
         public void GameOver()
         {
             LostBullet_Timer.Stop();
@@ -1269,74 +1343,8 @@ namespace SpaceShooter
             Main_PictureBox.Image = bitmap;
         }
        
-        private void Main_PictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Location.Y < 100)
-            {
-                MyPlayer.Location.Y = 100;
-                return;
-            }
-            MyPlayer.Location = e.Location;
-        }
-        private void Start_Button_Click(object sender, EventArgs e)
-        {
-            Start_Button.Hide();
-            Exit_Button.Hide();
-            MarkLogo_Label.Show();
-            Mark_Label.Show();
-            Level_Label.Show();
-            LevelLogo_Label.Show();           
-            IsStart = true;
-            Status = 0;
-            Cursor.Hide();
-            MyBoss = null;
-            Star_Timer.Start();
-            Enemy_Timer.Start();
-            Rock_Timer.Start();
-            Bullet_Timer.Start();
-            AttackEnemy_Timer.Start();
-            AttackEnemyBullet_Timer.Start();
-            EnemyBullet_Timer.Start();
-            AttackEnemyBullet_Timer.Start();
-            LostBullet_Timer.Start();
-            if (MyItem.Location.Y > 0)
-            {
-                Item_Timer.Start();
-            }            
-            if (BossShow == true)
-            {
-                Boss_Timer.Start();
-                BossBullet_Timer.Start();
-            }
-        }
-        private void Exit_Button_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }      
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                if (IsStart == true)
-                {
-                    Cursor.Show();
-                    Start_Button.Show();
-                    Exit_Button.Show();
-                    Start_Button.Text = "Continue";
-                }
-                Enemy_Timer.Stop();
-                EnemyBullet_Timer.Stop();
-                Bullet_Timer.Stop();      
-                Rock_Timer.Stop();
-                Star_Timer.Stop();
-                AttackEnemy_Timer.Stop();
-                AttackEnemyBullet_Timer.Stop();
-                Boss_Timer.Stop();
-                BossBullet_Timer.Stop();
-                LostBullet_Timer.Stop();
-                Item_Timer.Stop();
-            }
-        }  
+       
+        #region Classs
         public class Star
         {
             public PointF Location;
@@ -1401,5 +1409,6 @@ namespace SpaceShooter
             public int TypeItem;
             public int Times;
         }
+        #endregion
     }
 }

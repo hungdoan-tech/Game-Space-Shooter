@@ -778,13 +778,23 @@ namespace SpaceShooter
             }
             return false;
         }
-        public bool KiemTraBanTrungAttackEnemy(PointF a, PointF b)
+        public bool KiemTraBanTrungAttackEnemy(PointF a, AttackEnemy b)
         {
             if (a.Y >= 0)
             {
-                if (a.X <= b.X + 80 && a.X + 4 >= b.X +20 && a.Y <= b.Y + 65 && a.Y >= b.Y+23)
+                if (b.EnemyType == 1)
                 {
-                    return true;
+                    if (a.X <= b.Location.X + 80 && a.X + 4 >= b.Location.X + 20 && a.Y <= b.Location.Y + 65 && a.Y >= b.Location.Y + 23)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (a.X <= b.Location.X + 61 && a.X + 4 >= b.Location.X  && a.Y <= b.Location.Y + 50 && a.Y >= b.Location.Y)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -861,7 +871,7 @@ namespace SpaceShooter
             {
                 for (int j = 0; j < MyPlayer.MyBullet.Count; j++)
                 {
-                    if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i].Location) == true)
+                    if (KiemTraBanTrungAttackEnemy(MyPlayer.MyBullet[j].Location, ListAttackEnemy[i]) == true)
                     {
                         ListAttackEnemy[i].Health--;
                         if (ListAttackEnemy[i].Health == 0)
@@ -938,7 +948,7 @@ namespace SpaceShooter
             {
                 for (int i = 0; i < MyPlayer.MyBullet.Count; i++)
                 {
-                    if (MyPlayer.MyBullet[i].Location.X <= MyBoss.Location.X + 314 && MyPlayer.MyBullet[i].Location.X + 4 >= MyBoss.Location.X && MyPlayer.MyBullet[i].Location.Y <= MyBoss.Location.Y + 187 && MyPlayer.MyBullet[i].Location.Y >= MyBoss.Location.Y + 23)
+                    if (MyPlayer.MyBullet[i].Location.X <= MyBoss.Location.X + 350 && MyPlayer.MyBullet[i].Location.X + 4 >= MyBoss.Location.X+45 && MyPlayer.MyBullet[i].Location.Y <= MyBoss.Location.Y + 187 && MyPlayer.MyBullet[i].Location.Y >= MyBoss.Location.Y + 23)
                     {
                         MyBoss.Health--;
                         if (i == 0)

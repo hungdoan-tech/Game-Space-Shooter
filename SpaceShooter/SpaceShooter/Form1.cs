@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,7 +21,6 @@ namespace SpaceShooter
         Star[] ListStar;
         List<Enemy> ListEnemy;
         List<AttackEnemy> ListAttackEnemy;
-
         List<Bullet> ListTempEnemyBullet;
         List<Bullet> ListTempAttackEnemyBullet;
         Player MyPlayer;
@@ -38,8 +39,10 @@ namespace SpaceShooter
             gp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             KhoiTao();
         }
+        
         private void KhoiTao()
         {
+
             rd = new Random();
             ListStar = new Star[13];
             MyRock = new Rock();

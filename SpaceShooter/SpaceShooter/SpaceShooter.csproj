@@ -111,9 +111,6 @@
     <None Include="Resources\LaserBlue01.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LaserGreen10.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Rock.png" />
   </ItemGroup>
   <ItemGroup>
@@ -139,16 +136,10 @@
     <None Include="Resources\munition.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Player2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ufo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\game-over.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\wallhaven-323086.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Boss2.png" />
@@ -169,16 +160,7 @@
     <None Include="Resources\BossBullet2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\YouWin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\YouWin1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\YouWin3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Brand3.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Brand1.png" />
@@ -188,6 +170,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Bullet_Item.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boom.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GameSong.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shoot.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Songs\boom.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Songs\GameSong.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Songs\shoot.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

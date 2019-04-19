@@ -61,12 +61,11 @@ namespace SpaceShooter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static byte[] boom {
+        public static System.IO.UnmanagedMemoryStream boom {
             get {
-                object obj = ResourceManager.GetObject("boom", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetStream("boom", resourceCulture);
             }
         }
         
@@ -181,12 +180,11 @@ namespace SpaceShooter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static byte[] GameSong {
+        public static System.IO.UnmanagedMemoryStream GameSong {
             get {
-                object obj = ResourceManager.GetObject("GameSong", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetStream("GameSong", resourceCulture);
             }
         }
         
@@ -206,16 +204,6 @@ namespace SpaceShooter.Properties {
         public static System.Drawing.Bitmap laserBlue01 {
             get {
                 object obj = ResourceManager.GetObject("laserBlue01", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap laserGreen2 {
-            get {
-                object obj = ResourceManager.GetObject("laserGreen2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -251,12 +239,11 @@ namespace SpaceShooter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static byte[] shoot {
+        public static System.IO.UnmanagedMemoryStream shoot {
             get {
-                object obj = ResourceManager.GetObject("shoot", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetStream("shoot", resourceCulture);
             }
         }
         
